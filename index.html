@@ -3,51 +3,252 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EcoCollect - Clean Environment Initiative</title>
+    <title>PollutoGo - Clean Environment Initiative</title>
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
     <nav class="navbar">
-        <div class="logo">EcoCollect</div>
+        <div class="logo"><i class="fas fa-leaf"></i> PollutoGo</div>
         <div class="nav-links">
             <a href="index.html" class="active">Home</a>
             <a href="pages/lessons.html">Environmental Lessons</a>
             <a href="pages/leaderboard.html">Leaderboard</a>
             <a href="pages/converter.html">Trash Collection</a>
             <a href="pages/profile.html">Profile</a>
+            <a href="pages/admin.html" id="adminLink" style="display: none;">Admin</a>
             <a href="pages/login.html" id="loginBtn">Login</a>
             <a href="pages/signup.html" id="signupBtn">Sign Up</a>
             <a href="#" id="logoutBtn" style="display: none;">Logout</a>
         </div>
+        <div class="menu-toggle" id="mobile-menu">
+            <span class="bar"></span>
+            <span class="bar"></span>
+            <span class="bar"></span>
+        </div>
     </nav>
+
+    <div id="particles-js"></div>
 
     <main class="container">
         <section class="hero">
-            <h1>Join the Fight Against Pollution</h1>
-            <p>Learn, collect trash, earn points, and make our planet cleaner!</p>
+            <div class="hero-content">
+                <h1>Join the Fight Against Pollution</h1>
+                <p class="hero-subtitle">Learn, collect trash, earn points, and make our planet cleaner!</p>
+                <div class="hero-cta">
+                    <a href="pages/signup.html" class="btn btn-primary btn-lg">Get Started</a>
+                    <a href="pages/lessons.html" class="btn btn-secondary btn-lg">Learn More</a>
+                </div>
+            </div>
+            <div class="hero-image">
+                <img src="https://images.unsplash.com/photo-1532996122724-e3c354a0b15b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Clean Earth">
+            </div>
+        </section>
+
+        <section class="impact-stats">
+            <div class="stat-wrapper">
+                <div class="animated-stat">
+                    <span class="stat-number" data-target="15000">0</span>
+                    <span class="stat-unit">kg</span>
+                    <p>Trash Collected</p>
+                </div>
+            </div>
+            <div class="stat-wrapper">
+                <div class="animated-stat">
+                    <span class="stat-number" data-target="5000">0</span>
+                    <span class="stat-plus">+</span>
+                    <p>Active Members</p>
+                </div>
+            </div>
+            <div class="stat-wrapper">
+                <div class="animated-stat">
+                    <span class="stat-number" data-target="120">0</span>
+                    <span class="stat-unit">tons</span>
+                    <p>CO₂ Reduced</p>
+                </div>
+            </div>
         </section>
 
         <section class="featured-lessons">
-            <h2>Learn About Environmental Issues</h2>
+            <div class="section-header">
+                <h2>Learn About Environmental Issues</h2>
+                <p>Expand your knowledge and take action with our educational resources</p>
+            </div>
             <div class="lesson-grid" id="featuredLessons">
                 <!-- Lessons will be dynamically loaded here -->
             </div>
         </section>
 
         <section class="top-learners">
-            <h2>Top Environmental Contributors</h2>
+            <div class="section-header">
+                <h2>Top Environmental Contributors</h2>
+                <p>Our community heroes making a real difference</p>
+            </div>
             <div class="leaderboard-preview" id="topLearners">
                 <!-- Top learners will be dynamically loaded here -->
+            </div>
+        </section>
+
+        <section class="testimonials">
+            <div class="section-header">
+                <h2>Community Voices</h2>
+                <p>Hear from our passionate members</p>
+            </div>
+            <div class="testimonial-grid">
+                <div class="testimonial-card">
+                    <div class="testimonial-content">
+                        <i class="fas fa-quote-left"></i>
+                        <p>Since joining PollutoGo, I've collected over 500kg of trash from my local beach. The educational resources helped me understand the impact of plastic pollution.</p>
+                    </div>
+                    <div class="testimonial-author">
+                        <img src="https://randomuser.me/api/portraits/women/65.jpg" alt="User">
+                        <div>
+                            <h4>Sarah J.</h4>
+                            <p>Member since 2023</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card">
+                    <div class="testimonial-content">
+                        <i class="fas fa-quote-left"></i>
+                        <p>The gamification aspect makes environmental action fun! I love competing with friends to see who can collect more recyclables each week.</p>
+                    </div>
+                    <div class="testimonial-author">
+                        <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="User">
+                        <div>
+                            <h4>Michael T.</h4>
+                            <p>Member since 2022</p>
+                        </div>
+                    </div>
+                </div>
             </div>
         </section>
     </main>
 
     <footer>
-        <p>&copy; 2024 EcoCollect - Clean Environment Initiative. All rights reserved.</p>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3><i class="fas fa-leaf"></i> PollutoGo</h3>
+                <p>Join our mission to create a cleaner, greener planet through education and action.</p>
+                <div class="social-icons">
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="pages/lessons.html">Lessons</a></li>
+                    <li><a href="pages/leaderboard.html">Leaderboard</a></li>
+                    <li><a href="pages/converter.html">Trash Collection</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Contact Us</h3>
+                <p><i class="fas fa-envelope"></i> info@pollutogo.com</p>
+                <p><i class="fas fa-phone"></i> +1 (555) 123-4567</p>
+                <p><i class="fas fa-map-marker-alt"></i> 123 Green Street, Eco City</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 PollutoGo - Clean Environment Initiative. All rights reserved.</p>
+            <p class="admin-login-link"><a href="pages/login.html?admin=true">Administrator Access</a></p>
+        </div>
     </footer>
 
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
     <script src="js/main.js"></script>
     <script src="js/auth.js"></script>
+    <script>
+        // Particles.js initialization
+        if (typeof particlesJS !== 'undefined') {
+            particlesJS('particles-js', {
+                particles: {
+                    number: { value: 80, density: { enable: true, value_area: 800 } },
+                    color: { value: "#10b866" },
+                    shape: { type: "circle" },
+                    opacity: { value: 0.5, random: false },
+                    size: { value: 3, random: true },
+                    line_linked: {
+                        enable: true,
+                        distance: 150,
+                        color: "#10b866",
+                        opacity: 0.4,
+                        width: 1
+                    },
+                    move: {
+                        enable: true,
+                        speed: 2,
+                        direction: "none",
+                        random: false,
+                        straight: false,
+                        out_mode: "out",
+                        bounce: false
+                    }
+                },
+                interactivity: {
+                    detect_on: "canvas",
+                    events: {
+                        onhover: { enable: true, mode: "repulse" },
+                        onclick: { enable: true, mode: "push" },
+                        resize: true
+                    }
+                },
+                retina_detect: true
+            });
+        }
+
+        // Animated stats counter
+        const animateStats = () => {
+            const statElements = document.querySelectorAll('.stat-number');
+            
+            const speed = 200; // Lower is faster
+            
+            statElements.forEach(stat => {
+                const target = parseInt(stat.getAttribute('data-target'));
+                const increment = Math.ceil(target / speed);
+                
+                const updateCounter = () => {
+                    const count = parseInt(stat.innerText);
+                    if (count < target) {
+                        stat.innerText = count + increment;
+                        setTimeout(updateCounter, 1);
+                    } else {
+                        stat.innerText = target;
+                    }
+                };
+                
+                updateCounter();
+            });
+        };
+
+        // Mobile menu toggle
+        document.getElementById('mobile-menu').addEventListener('click', function() {
+            this.classList.toggle('active');
+            document.querySelector('.nav-links').classList.toggle('active');
+        });
+
+        // Run animations when page loads or when elements come into view
+        document.addEventListener('DOMContentLoaded', () => {
+            // When stats section is in view, animate the counters
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        animateStats();
+                        observer.unobserve(entry.target);
+                    }
+                });
+            });
+
+            const statsSection = document.querySelector('.impact-stats');
+            if (statsSection) {
+                observer.observe(statsSection);
+            }
+        });
+    </script>
 </body>
 </html> 

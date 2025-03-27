@@ -6,10 +6,11 @@
     <title>Your Profile - EcoCollect</title>
     <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
     <nav class="navbar">
-        <div class="logo">EcoCollect</div>
+        <div class="logo"><i class="fas fa-leaf"></i> PollutoGo</div>
         <div class="nav-links">
             <a href="../index.html">Home</a>
             <a href="lessons.html">Environmental Lessons</a>
@@ -20,57 +21,179 @@
             <a href="signup.html" id="signupBtn">Sign Up</a>
             <a href="#" id="logoutBtn" style="display: none;">Logout</a>
         </div>
+        <div class="menu-toggle" id="mobile-menu">
+            <span class="bar"></span>
+            <span class="bar"></span>
+            <span class="bar"></span>
+        </div>
     </nav>
 
     <main class="container">
+        <div class="profile-cover">
+            <div class="cover-photo" style="background-image: url('https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80');">
+                <div class="cover-overlay"></div>
+            </div>
+        </div>
+        
         <div class="profile-container">
             <div class="profile-sidebar">
-                <img id="profileImage" src="https://via.placeholder.com/200" alt="Profile Picture" class="profile-image">
+                <div class="profile-image-container">
+                    <img id="profileImage" src="https://via.placeholder.com/200" alt="Profile Picture" class="profile-image">
+                    <div class="profile-badge">
+                        <i class="fas fa-award"></i>
+                    </div>
+                </div>
                 <h3 id="profileUsername">Username</h3>
                 <p id="profileEmail">email@example.com</p>
-                <p id="profilePoints">Points: 0</p>
+                <div class="profile-points">
+                    <div class="point-circle">
+                        <span id="profilePoints">0</span>
+                    </div>
+                    <p>Total Points</p>
+                </div>
+                
                 <div id="environmentalBadges">
                     <!-- Badges will appear here based on points -->
                 </div>
-                <button id="updateProfileBtn" class="btn">Update Profile</button>
+                <button id="updateProfileBtn" class="btn"><i class="fas fa-edit"></i> Update Profile</button>
             </div>
+            
             <div class="profile-content">
-                <h2>Environmental Profile</h2>
-                <div id="environmentalStats" class="stats-container">
-                    <div class="stat-card">
-                        <h3 id="userSubmissions">0</h3>
-                        <p>Trash Submissions</p>
+                <div class="profile-tabs">
+                    <button class="tab-btn active" data-tab="stats">Dashboard</button>
+                    <button class="tab-btn" data-tab="submissions">Submissions</button>
+                    <button class="tab-btn" data-tab="achievements">Achievements</button>
+                    <button class="tab-btn" data-tab="settings">Settings</button>
+                </div>
+                
+                <div class="tab-content">
+                    <!-- Stats Tab (Default Active) -->
+                    <div id="stats" class="tab-pane active">
+                        <h2>Environmental Impact</h2>
+                        <div id="environmentalStats" class="stats-container">
+                            <div class="stat-card">
+                                <div class="stat-icon"><i class="fas fa-trash-alt"></i></div>
+                                <h3 id="userSubmissions">0</h3>
+                                <p>Trash Submissions</p>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-icon"><i class="fas fa-check-circle"></i></div>
+                                <h3 id="userApproved">0</h3>
+                                <p>Approved Submissions</p>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-icon"><i class="fas fa-book-reader"></i></div>
+                                <h3 id="userLessons">0</h3>
+                                <p>Lessons Completed</p>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-icon"><i class="fas fa-leaf"></i></div>
+                                <h3 id="co2Saved">0</h3>
+                                <p>kg CO₂ Saved</p>
+                            </div>
+                        </div>
+                        
+                        <div class="activity-section">
+                            <h3><i class="fas fa-chart-line"></i> Recent Activity</h3>
+                            <div class="activity-timeline" id="activityTimeline">
+                                <!-- Activity items will be added dynamically -->
+                                <div class="timeline-placeholder">
+                                    <p>Your recent activities will appear here</p>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="stat-card">
-                        <h3 id="userApproved">0</h3>
-                        <p>Approved Submissions</p>
+                    
+                    <!-- Submissions Tab -->
+                    <div id="submissions" class="tab-pane">
+                        <h2>Your Submissions</h2>
+                        <div class="submission-filters">
+                            <button class="filter-btn active" data-filter="all">All</button>
+                            <button class="filter-btn" data-filter="pending">Pending</button>
+                            <button class="filter-btn" data-filter="approved">Approved</button>
+                            <button class="filter-btn" data-filter="rejected">Rejected</button>
+                        </div>
+                        <div class="submission-gallery" id="submissionGallery">
+                            <!-- Submissions will be added dynamically -->
+                            <div class="gallery-placeholder">
+                                <i class="fas fa-camera"></i>
+                                <p>No submissions yet</p>
+                                <a href="converter.html" class="btn btn-sm">Make Your First Submission</a>
+                            </div>
+                        </div>
                     </div>
-                    <div class="stat-card">
-                        <h3 id="userLessons">0</h3>
-                        <p>Lessons Completed</p>
+                    
+                    <!-- Achievements Tab -->
+                    <div id="achievements" class="tab-pane">
+                        <h2>Your Achievements</h2>
+                        <div class="achievements-grid" id="achievementsGrid">
+                            <!-- Achievements will be added dynamically -->
+                            <div class="achievement-placeholder">
+                                <i class="fas fa-trophy"></i>
+                                <p>Complete more activities to earn achievements</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Settings Tab -->
+                    <div id="settings" class="tab-pane">
+                        <h2>Profile Settings</h2>
+                        <form id="profileForm">
+                            <div class="form-group">
+                                <label for="updateUsername">Username</label>
+                                <input type="text" id="updateUsername" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="updateEmail">Email</label>
+                                <input type="email" id="updateEmail" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="updateProfilePicture">Profile Picture URL</label>
+                                <input type="url" id="updateProfilePicture">
+                            </div>
+                            <div class="form-group">
+                                <label for="updateCoverPhoto">Cover Photo URL</label>
+                                <input type="url" id="updateCoverPhoto">
+                            </div>
+                            <button type="submit" class="btn"><i class="fas fa-save"></i> Save Changes</button>
+                        </form>
                     </div>
                 </div>
-                <form id="profileForm" style="display: none;">
-                    <div class="form-group">
-                        <label for="updateUsername">Username</label>
-                        <input type="text" id="updateUsername" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="updateEmail">Email</label>
-                        <input type="email" id="updateEmail" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="updateProfilePicture">Profile Picture URL</label>
-                        <input type="url" id="updateProfilePicture">
-                    </div>
-                    <button type="submit" class="btn">Save Changes</button>
-                </form>
             </div>
         </div>
     </main>
 
     <footer>
-        <p>&copy; 2024 EcoCollect - Clean Environment Initiative. All rights reserved.</p>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3><i class="fas fa-leaf"></i> EcoCollect</h3>
+                <p>Join our mission to create a cleaner, greener planet through education and action.</p>
+                <div class="social-icons">
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="../index.html">Home</a></li>
+                    <li><a href="lessons.html">Lessons</a></li>
+                    <li><a href="leaderboard.html">Leaderboard</a></li>
+                    <li><a href="converter.html">Trash Collection</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Contact Us</h3>
+                <p><i class="fas fa-envelope"></i> info@ecocollect.com</p>
+                <p><i class="fas fa-phone"></i> +1 (555) 123-4567</p>
+                <p><i class="fas fa-map-marker-alt"></i> 123 Green Street, Eco City</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 EcoCollect - Clean Environment Initiative. All rights reserved.</p>
+        </div>
     </footer>
 
     <script src="../js/auth.js"></script>
@@ -87,7 +210,7 @@
             document.getElementById('profileImage').src = currentUser.profilePicture || 'https://via.placeholder.com/200';
             document.getElementById('profileUsername').textContent = currentUser.username;
             document.getElementById('profileEmail').textContent = currentUser.email;
-            document.getElementById('profilePoints').textContent = `Points: ${currentUser.points}`;
+            document.getElementById('profilePoints').textContent = currentUser.points;
 
             // Calculate environmental stats
             const allSubmissions = JSON.parse(localStorage.getItem('trashSubmissions')) || [];
@@ -99,6 +222,7 @@
             document.getElementById('userApproved').textContent = approvedSubmissions.length;
             // This is a placeholder - in a real app you'd track completed lessons
             document.getElementById('userLessons').textContent = Math.floor(currentUser.points / 100); 
+            document.getElementById('co2Saved').textContent = Math.floor(currentUser.points * 0.5);
 
             // Award badges based on points
             const badgesElement = document.getElementById('environmentalBadges');
@@ -117,17 +241,183 @@
                 badgesElement.innerHTML = '<p>Collect trash and complete lessons to earn badges!</p>';
             }
 
+            // Tab switching functionality
+            const tabButtons = document.querySelectorAll('.tab-btn');
+            const tabPanes = document.querySelectorAll('.tab-pane');
+            
+            tabButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    // Remove active class from all buttons and panes
+                    tabButtons.forEach(btn => btn.classList.remove('active'));
+                    tabPanes.forEach(pane => pane.classList.remove('active'));
+                    
+                    // Add active class to clicked button and corresponding pane
+                    button.classList.add('active');
+                    const tabId = button.getAttribute('data-tab');
+                    document.getElementById(tabId).classList.add('active');
+                });
+            });
+
+            // Create mock activity data
+            const createMockActivities = () => {
+                const timeline = document.getElementById('activityTimeline');
+                if (timeline.children.length > 1) return; // Only generate once
+                
+                const activities = [
+                    { type: 'submission', date: '2 days ago', text: 'Submitted 2kg of plastic bottles' },
+                    { type: 'lesson', date: '5 days ago', text: 'Completed lesson on Ocean Pollution' },
+                    { type: 'badge', date: '1 week ago', text: 'Earned the Eco Beginner badge' },
+                    { type: 'submission', date: '2 weeks ago', text: 'Submitted 1.5kg of paper waste' }
+                ];
+                
+                // Clear placeholder if activities exist
+                if (activities.length > 0) {
+                    timeline.innerHTML = '';
+                }
+                
+                activities.forEach(activity => {
+                    let icon = '';
+                    switch(activity.type) {
+                        case 'submission': icon = '<i class="fas fa-trash-alt"></i>'; break;
+                        case 'lesson': icon = '<i class="fas fa-book-reader"></i>'; break;
+                        case 'badge': icon = '<i class="fas fa-award"></i>'; break;
+                        default: icon = '<i class="fas fa-check-circle"></i>';
+                    }
+                    
+                    const activityItem = document.createElement('div');
+                    activityItem.className = `activity-item ${activity.type}`;
+                    activityItem.innerHTML = `
+                        <div class="activity-icon">${icon}</div>
+                        <div class="activity-content">
+                            <p>${activity.text}</p>
+                            <span class="activity-date">${activity.date}</span>
+                        </div>
+                    `;
+                    timeline.appendChild(activityItem);
+                });
+            };
+            
+            createMockActivities();
+            
+            // Create mock submission gallery
+            const createMockSubmissions = () => {
+                const gallery = document.getElementById('submissionGallery');
+                if (gallery.children.length > 1) return; // Only generate once
+                
+                // Only create mock data if the user has no actual submissions
+                if (userSubmissions.length === 0) {
+                    return; // Keep the placeholder
+                }
+                
+                // Clear placeholder if submissions exist
+                gallery.innerHTML = '';
+                
+                // Create gallery items from actual user submissions
+                userSubmissions.forEach(submission => {
+                    const galleryItem = document.createElement('div');
+                    galleryItem.className = `gallery-item ${submission.status}`;
+                    galleryItem.setAttribute('data-status', submission.status);
+                    
+                    // Use a generic image based on trash type if no real image
+                    const imageUrl = submission.imageUrl || `https://source.unsplash.com/random/300x300/?${submission.trashType.replace(' ', '')}`;
+                    
+                    galleryItem.innerHTML = `
+                        <div class="gallery-image">
+                            <img src="${imageUrl}" alt="${submission.trashType}">
+                            <div class="status-badge ${submission.status}">${submission.status}</div>
+                        </div>
+                        <div class="gallery-info">
+                            <h4>${submission.trashType}</h4>
+                            <p>Weight: ${submission.weight}kg</p>
+                            <p>Points: ${submission.points}</p>
+                            <p>Date: ${new Date(submission.timestamp).toLocaleDateString()}</p>
+                        </div>
+                    `;
+                    gallery.appendChild(galleryItem);
+                });
+            };
+            
+            createMockSubmissions();
+            
+            // Create mock achievements
+            const createMockAchievements = () => {
+                const achievementsGrid = document.getElementById('achievementsGrid');
+                if (achievementsGrid.children.length > 1) return; // Only generate once
+                
+                const achievements = [
+                    { name: 'First Steps', icon: '🌱', description: 'Submit your first trash collection', completed: userSubmissions.length > 0 },
+                    { name: 'Plastic Fighter', icon: '🥤', description: 'Collect 5kg of plastic waste', completed: currentUser.points >= 200 },
+                    { name: 'Paper Saver', icon: '📰', description: 'Collect 10kg of paper waste', completed: currentUser.points >= 400 },
+                    { name: 'Metal Collector', icon: '🥫', description: 'Collect 3kg of metal waste', completed: currentUser.points >= 300 },
+                    { name: 'Knowledge Seeker', icon: '📚', description: 'Complete 5 environmental lessons', completed: Math.floor(currentUser.points / 100) >= 5 },
+                    { name: 'Community Leader', icon: '👑', description: 'Reach top 10 on the leaderboard', completed: currentUser.points >= 1000 }
+                ];
+                
+                // Clear placeholder if achievements exist
+                if (achievements.length > 0) {
+                    achievementsGrid.innerHTML = '';
+                }
+                
+                achievements.forEach(achievement => {
+                    const achievementItem = document.createElement('div');
+                    achievementItem.className = `achievement-card ${achievement.completed ? 'completed' : 'locked'}`;
+                    
+                    achievementItem.innerHTML = `
+                        <div class="achievement-icon">${achievement.icon}</div>
+                        <h4>${achievement.name}</h4>
+                        <p>${achievement.description}</p>
+                        <div class="achievement-status">
+                            ${achievement.completed ? 
+                                '<span class="completed-badge"><i class="fas fa-check-circle"></i> Completed</span>' : 
+                                '<span class="locked-badge"><i class="fas fa-lock"></i> Locked</span>'}
+                        </div>
+                    `;
+                    achievementsGrid.appendChild(achievementItem);
+                });
+            };
+            
+            createMockAchievements();
+            
+            // Filter functionality for submission gallery
+            const filterButtons = document.querySelectorAll('.filter-btn');
+            
+            filterButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    // Remove active class from all buttons
+                    filterButtons.forEach(btn => btn.classList.remove('active'));
+                    // Add active class to clicked button
+                    button.classList.add('active');
+                    
+                    const filter = button.getAttribute('data-filter');
+                    const galleryItems = document.querySelectorAll('.gallery-item');
+                    
+                    galleryItems.forEach(item => {
+                        if (filter === 'all' || item.getAttribute('data-status') === filter) {
+                            item.style.display = 'block';
+                        } else {
+                            item.style.display = 'none';
+                        }
+                    });
+                });
+            });
+
             // Profile update functionality
             const updateProfileBtn = document.getElementById('updateProfileBtn');
             const profileForm = document.getElementById('profileForm');
 
             updateProfileBtn.addEventListener('click', () => {
-                profileForm.style.display = profileForm.style.display === 'none' ? 'block' : 'none';
-                if (profileForm.style.display === 'block') {
-                    document.getElementById('updateUsername').value = currentUser.username;
-                    document.getElementById('updateEmail').value = currentUser.email;
-                    document.getElementById('updateProfilePicture').value = currentUser.profilePicture || '';
-                }
+                // Switch to settings tab
+                tabButtons.forEach(btn => btn.classList.remove('active'));
+                tabPanes.forEach(pane => pane.classList.remove('active'));
+                
+                document.querySelector('[data-tab="settings"]').classList.add('active');
+                document.getElementById('settings').classList.add('active');
+                
+                // Fill the form with current values
+                document.getElementById('updateUsername').value = currentUser.username;
+                document.getElementById('updateEmail').value = currentUser.email;
+                document.getElementById('updateProfilePicture').value = currentUser.profilePicture || '';
+                document.getElementById('updateCoverPhoto').value = currentUser.coverPhoto || '';
             });
 
             profileForm.addEventListener('submit', (e) => {
@@ -135,11 +425,29 @@
                 const updates = {
                     username: document.getElementById('updateUsername').value,
                     email: document.getElementById('updateEmail').value,
-                    profilePicture: document.getElementById('updateProfilePicture').value || null
+                    profilePicture: document.getElementById('updateProfilePicture').value || null,
+                    coverPhoto: document.getElementById('updateCoverPhoto').value || null
                 };
 
                 userManager.updateUserProfile(currentUser.id, updates);
-                window.location.reload();
+                
+                // Show success message
+                const successMsg = document.createElement('div');
+                successMsg.className = 'message success-message';
+                successMsg.innerHTML = '<i class="fas fa-check-circle"></i> Profile updated successfully!';
+                profileForm.appendChild(successMsg);
+                
+                // Remove message after 3 seconds
+                setTimeout(() => {
+                    successMsg.remove();
+                    window.location.reload();
+                }, 2000);
+            });
+            
+            // Mobile menu toggle
+            document.getElementById('mobile-menu').addEventListener('click', function() {
+                this.classList.toggle('active');
+                document.querySelector('.nav-links').classList.toggle('active');
             });
         });
     </script>

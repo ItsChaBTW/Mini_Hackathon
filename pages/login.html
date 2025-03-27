@@ -3,19 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - EcoCollect</title>
+    <title>Login - PollutoGo</title>
     <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
     <nav class="navbar">
-        <div class="logo">EcoCollect</div>
+        <div class="logo">PollutoGo</div>
         <div class="nav-links">
             <a href="../index.html">Home</a>
             <a href="lessons.html">Environmental Lessons</a>
             <a href="leaderboard.html">Leaderboard</a>
             <a href="converter.html">Trash Collection</a>
             <a href="profile.html">Profile</a>
+            <a href="admin.html" id="adminLink" style="display: none;">Admin</a>
             <a href="login.html" class="active">Login</a>
             <a href="signup.html">Sign Up</a>
         </div>
@@ -23,8 +24,9 @@
 
     <main class="container">
         <div class="form-container">
-            <h2>Login to EcoCollect</h2>
+            <h2>Login to PollutoGo</h2>
             <p>Join the movement to clean up our planet!</p>
+            <div id="loginMessage" class="message" style="display: none;"></div>
             <form id="loginForm">
                 <div class="form-group">
                     <label for="email">Email</label>
@@ -43,7 +45,7 @@
     </main>
 
     <footer>
-        <p>&copy; 2024 EcoCollect - Clean Environment Initiative. All rights reserved.</p>
+        <p>&copy; 2024 PollutoGo - Clean Environment Initiative. All rights reserved.</p>
     </footer>
 
     <script src="../js/auth.js"></script>
@@ -52,12 +54,41 @@
             e.preventDefault();
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
+            const messageDiv = document.getElementById('loginMessage');
 
             try {
-                userManager.login(email, password);
-                window.location.href = '../index.html';
+                const user = userManager.login(email, password);
+                
+                // Display success message
+                messageDiv.textContent = 'Login successful!';
+                messageDiv.style.display = 'block';
+                messageDiv.className = 'message success-message';
+                
+                // Redirect based on user type
+                setTimeout(() => {
+                    if (user.isAdmin) {
+                        window.location.href = 'admin.html';
+                    } else {
+                        window.location.href = '../index.html';
+                    }
+                }, 1000);
             } catch (error) {
-                alert(error.message);
+                messageDiv.textContent = error.message;
+                messageDiv.style.display = 'block';
+                messageDiv.className = 'message error-message';
+            }
+        });
+        
+        // Check for admin login hint
+        document.addEventListener('DOMContentLoaded', () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.get('admin') === 'true') {
+                document.getElementById('email').value = 'admin@pollutogo.com';
+                document.getElementById('password').value = 'admin';
+                const messageDiv = document.getElementById('loginMessage');
+                messageDiv.textContent = 'Admin credentials pre-filled. Click Login to continue.';
+                messageDiv.style.display = 'block';
+                messageDiv.className = 'message info-message';
             }
         });
     </script>

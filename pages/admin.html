@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - PollutoGo</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .admin-container {
+            display: grid;
+            grid-template-columns: 250px 1fr;
+            min-height: calc(100vh - 70px - 80px);
+        }
+        
+        .admin-sidebar {
+            background-color: var(--green-50);
+            padding: 2rem 1rem;
+            border-right: 1px solid var(--green-200);
+        }
+        
+        .admin-sidebar h3 {
+            color: var(--green-800);
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--green-300);
+        }
+        
+        .admin-menu {
+            list-style: none;
+        }
+        
+        .admin-menu li {
+            margin-bottom: 0.5rem;
+        }
+        
+        .admin-menu a {
+            display: block;
+            padding: 0.5rem;
+            color: var(--green-900);
+            text-decoration: none;
+            border-radius: 4px;
+            transition: all 0.2s;
+        }
+        
+        .admin-menu a:hover, .admin-menu a.active {
+            background-color: var(--green-100);
+        }
+        
+        .admin-content {
+            padding: 2rem;
+        }
+        
+        .admin-card {
+            background: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            margin-bottom: 1.5rem;
+        }
+        
+        .admin-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .submissions-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .submissions-table th, .submissions-table td {
+            padding: 0.75rem;
+            text-align: left;
+            border-bottom: 1px solid var(--green-100);
+        }
+        
+        .submissions-table th {
+            background-color: var(--green-50);
+            color: var(--green-800);
+            font-weight: 600;
+        }
+        
+        .submissions-table tr:hover {
+            background-color: var(--green-50);
+        }
+        
+        .submission-image {
+            width: 100px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 4px;
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 0.5rem;
+        }
+        
+        .btn-approve {
+            background-color: var(--green-600);
+        }
+        
+        .btn-reject {
+            background-color: #dc2626;
+        }
+        
+        .btn-small {
+            padding: 0.25rem 0.5rem;
+            font-size: 0.875rem;
+        }
+        
+        .filter-controls {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo">PollutoGo Admin</div>
+        <div class="nav-links">
+            <a href="../index.html">Home</a>
+            <a href="admin.html" class="active" id="adminLink">Admin Dashboard</a>
+            <a href="#" id="logoutBtn">Logout</a>
+        </div>
+    </nav>
+
+    <main class="admin-container">
+        <div class="admin-sidebar">
+            <h3>Admin Panel</h3>
+            <ul class="admin-menu">
+                <li><a href="#dashboard" class="active" data-section="dashboard">Dashboard</a></li>
+                <li><a href="#pending" data-section="pending">Pending Submissions</a></li>
+                <li><a href="#approved" data-section="approved">Approved Submissions</a></li>
+                <li><a href="#rejected" data-section="rejected">Rejected Submissions</a></li>
+                <li><a href="#users" data-section="users">User Management</a></li>
+                <li><a href="#settings" data-section="settings">Settings</a></li>
+            </ul>
+        </div>
+        
+        <div class="admin-content">
+            <!-- Dashboard Section -->
+            <section id="dashboard-section" class="admin-section">
+                <h2>Admin Dashboard</h2>
+                <p>Welcome to the PollutoGo admin panel. Manage submissions, users, and more.</p>
+                
+                <div class="admin-stats">
+                    <div class="stat-card">
+                        <h3 id="totalSubmissions">0</h3>
+                        <p>Total Submissions</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3 id="pendingSubmissions">0</h3>
+                        <p>Pending Review</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3 id="approvedSubmissions">0</h3>
+                        <p>Approved</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3 id="rejectedSubmissions">0</h3>
+                        <p>Rejected</p>
+                    </div>
+                </div>
+                
+                <div class="admin-card">
+                    <h3>Recent Activity</h3>
+                    <div id="recentActivity">
+                        <p>Loading recent activity...</p>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Pending Submissions Section -->
+            <section id="pending-section" class="admin-section" style="display: none;">
+                <h2>Pending Submissions</h2>
+                <p>Review and approve or reject user submissions.</p>
+                
+                <div class="filter-controls">
+                    <select id="filterTrashType" class="form-control">
+                        <option value="all">All Trash Types</option>
+                        <!-- Trash types will be dynamically loaded here -->
+                    </select>
+                    
+                    <select id="sortOrder" class="form-control">
+                        <option value="newest">Newest First</option>
+                        <option value="oldest">Oldest First</option>
+                    </select>
+                </div>
+                
+                <div class="admin-card">
+                    <table class="submissions-table">
+                        <thead>
+                            <tr>
+                                <th>Image</th>
+                                <th>User</th>
+                                <th>Trash Type</th>
+                                <th>Description</th>
+                                <th>Date</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="pendingSubmissionsTable">
+                            <!-- Pending submissions will be loaded here -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+            
+            <!-- Approved Submissions Section -->
+            <section id="approved-section" class="admin-section" style="display: none;">
+                <h2>Approved Submissions</h2>
+                <p>View all approved submissions.</p>
+                
+                <div class="admin-card">
+                    <table class="submissions-table">
+                        <thead>
+                            <tr>
+                                <th>Image</th>
+                                <th>User</th>
+                                <th>Trash Type</th>
+                                <th>Description</th>
+                                <th>Date</th>
+                                <th>Points</th>
+                            </tr>
+                        </thead>
+                        <tbody id="approvedSubmissionsTable">
+                            <!-- Approved submissions will be loaded here -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+            
+            <!-- Rejected Submissions Section -->
+            <section id="rejected-section" class="admin-section" style="display: none;">
+                <h2>Rejected Submissions</h2>
+                <p>View all rejected submissions.</p>
+                
+                <div class="admin-card">
+                    <table class="submissions-table">
+                        <thead>
+                            <tr>
+                                <th>Image</th>
+                                <th>User</th>
+                                <th>Trash Type</th>
+                                <th>Description</th>
+                                <th>Date</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="rejectedSubmissionsTable">
+                            <!-- Rejected submissions will be loaded here -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+            
+            <!-- User Management Section -->
+            <section id="users-section" class="admin-section" style="display: none;">
+                <h2>User Management</h2>
+                <p>View and manage user accounts.</p>
+                
+                <div class="admin-card">
+                    <table class="submissions-table">
+                        <thead>
+                            <tr>
+                                <th>Username</th>
+                                <th>Email</th>
+                                <th>Points</th>
+                                <th>Joined</th>
+                                <th>Submissions</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="usersTable">
+                            <!-- Users will be loaded here -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+            
+            <!-- Settings Section -->
+            <section id="settings-section" class="admin-section" style="display: none;">
+                <h2>Admin Settings</h2>
+                <p>Configure application settings.</p>
+                
+                <div class="admin-card">
+                    <h3>Point System Settings</h3>
+                    <form id="pointsSettingsForm">
+                        <div class="form-group">
+                            <label for="plasticPoints">Plastic Points</label>
+                            <input type="number" id="plasticPoints" min="1" value="10">
+                        </div>
+                        <div class="form-group">
+                            <label for="paperPoints">Paper Points</label>
+                            <input type="number" id="paperPoints" min="1" value="5">
+                        </div>
+                        <div class="form-group">
+                            <label for="glassPoints">Glass Points</label>
+                            <input type="number" id="glassPoints" min="1" value="15">
+                        </div>
+                        <div class="form-group">
+                            <label for="metalPoints">Metal Points</label>
+                            <input type="number" id="metalPoints" min="1" value="20">
+                        </div>
+                        <div class="form-group">
+                            <label for="ewastePoints">E-Waste Points</label>
+                            <input type="number" id="ewastePoints" min="1" value="30">
+                        </div>
+                        <div class="form-group">
+                            <label for="organicPoints">Organic Points</label>
+                            <input type="number" id="organicPoints" min="1" value="5">
+                        </div>
+                        <button type="submit" class="btn">Save Settings</button>
+                    </form>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 PollutoGo - Clean Environment Initiative. All rights reserved.</p>
+    </footer>
+
+    <script src="../js/auth.js"></script>
+    <script src="../js/main.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Check if user is admin
+            const currentUser = userManager.currentUser;
+            if (!currentUser || !userManager.isAdmin) {
+                window.location.href = 'login.html';
+                return;
+            }
+            
+            // Navigation
+            const menuLinks = document.querySelectorAll('.admin-menu a');
+            const sections = document.querySelectorAll('.admin-section');
+            
+            menuLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    
+                    // Remove active class from all links
+                    menuLinks.forEach(l => l.classList.remove('active'));
+                    
+                    // Add active class to clicked link
+                    link.classList.add('active');
+                    
+                    // Hide all sections
+                    sections.forEach(section => section.style.display = 'none');
+                    
+                    // Show selected section
+                    const sectionId = link.getAttribute('data-section');
+                    document.getElementById(`${sectionId}-section`).style.display = 'block';
+                });
+            });
+            
+            // Load stats
+            const allSubmissions = JSON.parse(localStorage.getItem('trashSubmissions')) || [];
+            const pendingSubmissions = allSubmissions.filter(sub => sub.status === 'pending');
+            const approvedSubmissions = allSubmissions.filter(sub => sub.status === 'approved');
+            const rejectedSubmissions = allSubmissions.filter(sub => sub.status === 'rejected');
+            
+            document.getElementById('totalSubmissions').textContent = allSubmissions.length;
+            document.getElementById('pendingSubmissions').textContent = pendingSubmissions.length;
+            document.getElementById('approvedSubmissions').textContent = approvedSubmissions.length;
+            document.getElementById('rejectedSubmissions').textContent = rejectedSubmissions.length;
+            
+            // Load recent activity
+            const recentActivity = document.getElementById('recentActivity');
+            if (allSubmissions.length > 0) {
+                const recentSubmissions = [...allSubmissions]
+                    .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+                    .slice(0, 5);
+                
+                recentActivity.innerHTML = `
+                    <ul class="activity-list">
+                        ${recentSubmissions.map(sub => {
+                            const user = userManager.users.find(u => u.id === sub.userId);
+                            return `
+                                <li>
+                                    <strong>${user ? user.username : 'Unknown User'}</strong> submitted 
+                                    ${sub.trashTypeName} trash - <span class="status-${sub.status}">${sub.status}</span>
+                                    <small>${new Date(sub.createdAt).toLocaleString()}</small>
+                                </li>
+                            `;
+                        }).join('')}
+                    </ul>
+                `;
+            } else {
+                recentActivity.innerHTML = '<p>No recent activity yet.</p>';
+            }
+            
+            // Load trash types for filter
+            const filterTrashType = document.getElementById('filterTrashType');
+            const trashTypes = trashSubmissionManager.getTrashTypes();
+            
+            trashTypes.forEach(type => {
+                const option = document.createElement('option');
+                option.value = type.id;
+                option.textContent = type.name;
+                filterTrashType.appendChild(option);
+            });
+            
+            // Load pending submissions
+            function loadPendingSubmissions() {
+                const pendingTable = document.getElementById('pendingSubmissionsTable');
+                if (pendingSubmissions.length > 0) {
+                    pendingTable.innerHTML = pendingSubmissions.map(sub => {
+                        const user = userManager.users.find(u => u.id === sub.userId);
+                        return `
+                            <tr data-id="${sub.id}">
+                                <td><img src="${sub.imageUrl}" alt="${sub.trashTypeName}" class="submission-image"></td>
+                                <td>${user ? user.username : 'Unknown User'}</td>
+                                <td>${sub.trashTypeName}</td>
+                                <td>${sub.description || 'No description'}</td>
+                                <td>${new Date(sub.createdAt).toLocaleDateString()}</td>
+                                <td>
+                                    <div class="action-buttons">
+                                        <button class="btn btn-approve btn-small" onclick="approveSubmission(${sub.id})">Approve</button>
+                                        <button class="btn btn-reject btn-small" onclick="rejectSubmission(${sub.id})">Reject</button>
+                                    </div>
+                                </td>
+                            </tr>
+                        `;
+                    }).join('');
+                } else {
+                    pendingTable.innerHTML = '<tr><td colspan="6" class="text-center">No pending submissions</td></tr>';
+                }
+            }
+            
+            // Load approved submissions
+            function loadApprovedSubmissions() {
+                const approvedTable = document.getElementById('approvedSubmissionsTable');
+                if (approvedSubmissions.length > 0) {
+                    approvedTable.innerHTML = approvedSubmissions.map(sub => {
+                        const user = userManager.users.find(u => u.id === sub.userId);
+                        return `
+                            <tr>
+                                <td><img src="${sub.imageUrl}" alt="${sub.trashTypeName}" class="submission-image"></td>
+                                <td>${user ? user.username : 'Unknown User'}</td>
+                                <td>${sub.trashTypeName}</td>
+                                <td>${sub.description || 'No description'}</td>
+                                <td>${new Date(sub.createdAt).toLocaleDateString()}</td>
+                                <td>${sub.potentialPoints}</td>
+                            </tr>
+                        `;
+                    }).join('');
+                } else {
+                    approvedTable.innerHTML = '<tr><td colspan="6" class="text-center">No approved submissions</td></tr>';
+                }
+            }
+            
+            // Load rejected submissions
+            function loadRejectedSubmissions() {
+                const rejectedTable = document.getElementById('rejectedSubmissionsTable');
+                if (rejectedSubmissions.length > 0) {
+                    rejectedTable.innerHTML = rejectedSubmissions.map(sub => {
+                        const user = userManager.users.find(u => u.id === sub.userId);
+                        return `
+                            <tr data-id="${sub.id}">
+                                <td><img src="${sub.imageUrl}" alt="${sub.trashTypeName}" class="submission-image"></td>
+                                <td>${user ? user.username : 'Unknown User'}</td>
+                                <td>${sub.trashTypeName}</td>
+                                <td>${sub.description || 'No description'}</td>
+                                <td>${new Date(sub.createdAt).toLocaleDateString()}</td>
+                                <td>
+                                    <div class="action-buttons">
+                                        <button class="btn btn-approve btn-small" onclick="approveSubmission(${sub.id})">Approve</button>
+                                    </div>
+                                </td>
+                            </tr>
+                        `;
+                    }).join('');
+                } else {
+                    rejectedTable.innerHTML = '<tr><td colspan="6" class="text-center">No rejected submissions</td></tr>';
+                }
+            }
+            
+            // Load users
+            function loadUsers() {
+                const usersTable = document.getElementById('usersTable');
+                const users = userManager.users.filter(user => !user.isAdmin); // Exclude admin users
+                
+                if (users.length > 0) {
+                    usersTable.innerHTML = users.map(user => {
+                        const userSubmissions = allSubmissions.filter(sub => sub.userId === user.id);
+                        return `
+                            <tr>
+                                <td>${user.username}</td>
+                                <td>${user.email}</td>
+                                <td>${user.points}</td>
+                                <td>${new Date(user.createdAt).toLocaleDateString()}</td>
+                                <td>${userSubmissions.length}</td>
+                                <td>
+                                    <button class="btn btn-small" onclick="viewUserDetails(${user.id})">View Details</button>
+                                </td>
+                            </tr>
+                        `;
+                    }).join('');
+                } else {
+                    usersTable.innerHTML = '<tr><td colspan="6" class="text-center">No users yet</td></tr>';
+                }
+            }
+            
+            // Initial load
+            loadPendingSubmissions();
+            loadApprovedSubmissions();
+            loadRejectedSubmissions();
+            loadUsers();
+            
+            // Global functions for approve/reject
+            window.approveSubmission = function(submissionId) {
+                trashSubmissionManager.approveSubmission(submissionId);
+                alert('Submission approved and points awarded to user!');
+                location.reload(); // Reload page to refresh data
+            };
+            
+            window.rejectSubmission = function(submissionId) {
+                trashSubmissionManager.rejectSubmission(submissionId);
+                alert('Submission rejected!');
+                location.reload(); // Reload page to refresh data
+            };
+            
+            window.viewUserDetails = function(userId) {
+                alert('User details functionality to be implemented.');
+                // In a real app, this would open a modal with user details
+            };
+            
+            // Settings form
+            const pointsSettingsForm = document.getElementById('pointsSettingsForm');
+            pointsSettingsForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                
+                // In a real app, this would save to the database
+                alert('Settings saved successfully!');
+            });
+        });
+    </script>
+</body>
+</html> 

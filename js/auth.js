@@ -3,7 +3,29 @@ class UserManager {
     constructor() {
         this.users = JSON.parse(localStorage.getItem('users')) || [];
         this.currentUser = JSON.parse(localStorage.getItem('currentUser')) || null;
+        this.isAdmin = localStorage.getItem('isAdmin') === 'true';
         this.updateAuthUI();
+        this.initializeAdmin();
+    }
+    
+    initializeAdmin() {
+        // Create admin account if it doesn't exist
+        const adminExists = this.users.some(user => user.email === 'admin@pollutogo.com');
+        if (!adminExists) {
+            const adminUser = {
+                id: 'admin-' + Date.now(),
+                username: 'Admin',
+                email: 'admin@pollutogo.com',
+                password: 'admin', // This would be hashed in a real application
+                profilePicture: null,
+                points: 0,
+                isAdmin: true,
+                createdAt: new Date().toISOString()
+            };
+            
+            this.users.push(adminUser);
+            localStorage.setItem('users', JSON.stringify(this.users));
+        }
     }
 
     register(username, email, password, profilePicture = null) {
@@ -18,6 +40,7 @@ class UserManager {
             password, // In a real app, this should be hashed
             profilePicture,
             points: 0,
+            isAdmin: false,
             createdAt: new Date().toISOString()
         };
 
@@ -31,6 +54,8 @@ class UserManager {
         if (user) {
             this.currentUser = user;
             localStorage.setItem('currentUser', JSON.stringify(user));
+            this.isAdmin = user.isAdmin || false;
+            localStorage.setItem('isAdmin', this.isAdmin);
             this.updateAuthUI();
             return user;
         }
@@ -39,7 +64,9 @@ class UserManager {
 
     logout() {
         this.currentUser = null;
+        this.isAdmin = false;
         localStorage.removeItem('currentUser');
+        localStorage.removeItem('isAdmin');
         this.updateAuthUI();
     }
 
@@ -47,15 +74,18 @@ class UserManager {
         const loginBtn = document.getElementById('loginBtn');
         const signupBtn = document.getElementById('signupBtn');
         const logoutBtn = document.getElementById('logoutBtn');
+        const adminLink = document.getElementById('adminLink');
 
         if (this.currentUser) {
             if (loginBtn) loginBtn.style.display = 'none';
             if (signupBtn) signupBtn.style.display = 'none';
             if (logoutBtn) logoutBtn.style.display = 'block';
+            if (adminLink) adminLink.style.display = this.isAdmin ? 'block' : 'none';
         } else {
             if (loginBtn) loginBtn.style.display = 'block';
             if (signupBtn) signupBtn.style.display = 'block';
             if (logoutBtn) logoutBtn.style.display = 'none';
+            if (adminLink) adminLink.style.display = 'none';
         }
     }
 
