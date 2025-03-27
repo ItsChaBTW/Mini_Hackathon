@@ -172,52 +172,202 @@ class TrashSubmissionManager {
         return this.submissions.filter(sub => sub.userId === userId);
     }
 
-    addSubmission(userId, trashTypeId, imageUrl, description) {
-        const trashType = this.getTrashTypeById(trashTypeId);
-        if (!trashType) return false;
+    addSubmission(submission) {
+        submission.id = Date.now();
+        submission.status = 'pending';
+        submission.createdAt = new Date().toISOString();
+        this.submissions.push(submission);
+        this.saveSubmissions();
+        return submission.id;
+    }
 
-        const submission = {
-            id: Date.now(),
-            userId,
-            trashTypeId,
-            trashTypeName: trashType.name,
-            potentialPoints: trashType.points,
-            imageUrl,
-            description,
-            status: 'pending',
-            createdAt: new Date().toISOString()
+    approveSubmission(submissionId) {
+        const submission = this.submissions.find(s => s.id === submissionId);
+        if (submission) {
+            submission.status = 'approved';
+            submission.approvedAt = new Date().toISOString();
+            
+            // Award points to user
+            const user = userManager.getUserById(submission.userId);
+            if (user) {
+                user.points += submission.points;
+                user.trashCollected += submission.weight;
+                userManager.updateUser(user);
+                
+                // Trigger achievements check
+                this.checkAchievements(user, submission);
+            }
+            
+            this.saveSubmissions();
+            return true;
+        }
+        return false;
+    }
+
+    checkAchievements(user, submission) {
+        const achievements = [];
+        
+        // Check total trash collected milestones
+        const totalCollected = user.trashCollected;
+        if (totalCollected >= 100) achievements.push('100kg_collected');
+        if (totalCollected >= 500) achievements.push('500kg_collected');
+        if (totalCollected >= 1000) achievements.push('1000kg_collected');
+        
+        // Check streak achievements
+        const streak = this.calculateStreak(user.id);
+        if (streak >= 7) achievements.push('week_streak');
+        if (streak >= 30) achievements.push('month_streak');
+        
+        // Award new achievements
+        achievements.forEach(achievement => {
+            if (!user.achievements.includes(achievement)) {
+                user.achievements.push(achievement);
+                this.notifyAchievement(achievement);
+            }
+        });
+        
+        userManager.updateUser(user);
+    }
+
+    notifyAchievement(achievement) {
+        const notifications = {
+            '100kg_collected': {
+                title: 'Eco Warrior!',
+                message: 'You\'ve collected 100kg of trash! Keep up the great work!'
+            },
+            '500kg_collected': {
+                title: 'Environmental Champion!',
+                message: 'Amazing! You\'ve collected 500kg of trash!'
+            },
+            // Add more achievements...
         };
 
-        this.submissions.push(submission);
-        localStorage.setItem('trashSubmissions', JSON.stringify(this.submissions));
-        return submission;
+        const notification = notifications[achievement];
+        if (notification) {
+            this.showNotification(notification.title, notification.message);
+        }
     }
 
-    // This would be an admin function in a real app
-    approveSubmission(submissionId) {
-        const index = this.submissions.findIndex(sub => sub.id === submissionId);
-        if (index === -1) return false;
+    showNotification(title, message) {
+        // Create notification element
+        const notif = document.createElement('div');
+        notif.className = 'achievement-notification';
+        notif.innerHTML = `
+            <div class="achievement-content">
+                <i class="fas fa-trophy"></i>
+                <div class="achievement-text">
+                    <h4>${title}</h4>
+                    <p>${message}</p>
+                </div>
+            </div>
+        `;
 
-        const submission = this.submissions[index];
-        submission.status = 'approved';
+        document.body.appendChild(notif);
         
-        // Award points to the user
-        const trashType = this.getTrashTypeById(submission.trashTypeId);
-        userManager.addPoints(submission.userId, trashType.points);
-        
-        this.submissions[index] = submission;
-        localStorage.setItem('trashSubmissions', JSON.stringify(this.submissions));
-        return true;
+        // Animate notification
+        setTimeout(() => {
+            notif.classList.add('show');
+            setTimeout(() => {
+                notif.classList.remove('show');
+                setTimeout(() => notif.remove(), 300);
+            }, 3000);
+        }, 100);
     }
 
-    // This would be an admin function in a real app
-    rejectSubmission(submissionId) {
-        const index = this.submissions.findIndex(sub => sub.id === submissionId);
-        if (index === -1) return false;
-
-        this.submissions[index].status = 'rejected';
+    saveSubmissions() {
         localStorage.setItem('trashSubmissions', JSON.stringify(this.submissions));
-        return true;
+    }
+}
+
+class RewardSystem {
+    constructor() {
+        this.rewards = {
+            wasteTypes: {
+                plastic: { points: 10, multiplier: 1.0, name: "Plastic" },
+                paper: { points: 8, multiplier: 1.0, name: "Paper" },
+                metal: { points: 15, multiplier: 1.0, name: "Metal" },
+                glass: { points: 12, multiplier: 1.0, name: "Glass" },
+                electronic: { points: 25, multiplier: 1.0, name: "E-Waste" },
+                organic: { points: 5, multiplier: 1.0, name: "Organic" }
+            },
+            streakBonuses: {
+                weekly: { days: 7, multiplier: 1.5, name: "Weekly Warrior" },
+                monthly: { days: 30, multiplier: 2.0, name: "Monthly Master" }
+            },
+            tiers: [
+                { name: "Novice Collector", requirement: 0, badge: "seedling" },
+                { name: "Eco Enthusiast", requirement: 500, badge: "leaf" },
+                { name: "Green Guardian", requirement: 1000, badge: "tree" },
+                { name: "Earth Protector", requirement: 2500, badge: "globe-americas" },
+                { name: "Environmental Champion", requirement: 5000, badge: "crown" }
+            ],
+            specialAchievements: {
+                first_submission: { points: 50, name: "First Steps" },
+                hundred_kg: { points: 200, name: "Century Collector" },
+                consistent_weekly: { points: 100, name: "Dedication Award" },
+                community_leader: { points: 500, name: "Community Champion" }
+            }
+        };
+    }
+
+    calculatePoints(submission) {
+        const basePoints = this.rewards.wasteTypes[submission.wasteType].points;
+        let multiplier = this.rewards.wasteTypes[submission.wasteType].multiplier;
+        
+        // Apply streak bonuses
+        if (this.hasWeeklyStreak(submission.userId)) {
+            multiplier *= this.rewards.streakBonuses.weekly.multiplier;
+        }
+        if (this.hasMonthlyStreak(submission.userId)) {
+            multiplier *= this.rewards.streakBonuses.monthly.multiplier;
+        }
+
+        // Calculate final points
+        const points = Math.round(basePoints * submission.weight * multiplier);
+        return points;
+    }
+
+    getUserTier(totalPoints) {
+        for (let i = this.rewards.tiers.length - 1; i >= 0; i--) {
+            if (totalPoints >= this.rewards.tiers[i].requirement) {
+                return this.rewards.tiers[i];
+            }
+        }
+        return this.rewards.tiers[0];
+    }
+
+    checkAchievements(user, submission) {
+        const newAchievements = [];
+
+        // Check first submission
+        if (user.submissions.length === 1) {
+            newAchievements.push(this.rewards.specialAchievements.first_submission);
+        }
+
+        // Check total collection weight
+        const totalWeight = user.submissions.reduce((sum, sub) => sum + sub.weight, 0);
+        if (totalWeight >= 100 && !user.achievements.includes('hundred_kg')) {
+            newAchievements.push(this.rewards.specialAchievements.hundred_kg);
+        }
+
+        // Check weekly streak
+        if (this.hasWeeklyStreak(user.id) && !user.achievements.includes('consistent_weekly')) {
+            newAchievements.push(this.rewards.specialAchievements.consistent_weekly);
+        }
+
+        return newAchievements;
+    }
+
+    hasWeeklyStreak(userId) {
+        // Implementation for checking weekly streak
+        const submissions = this.getLastWeekSubmissions(userId);
+        return submissions.length >= 7;
+    }
+
+    hasMonthlyStreak(userId) {
+        // Implementation for checking monthly streak
+        const submissions = this.getLastMonthSubmissions(userId);
+        return submissions.length >= 30;
     }
 }
 

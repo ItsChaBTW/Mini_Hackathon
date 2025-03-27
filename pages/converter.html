@@ -133,7 +133,7 @@
                     </div>
                 </div>
             </div>
-
+            
             <div class="history-panel">
                 <div class="panel-header">
                     <h2>Recent Collections</h2>
@@ -147,6 +147,97 @@
 
                 <div class="history-timeline" id="submissionHistory">
                     <!-- History items will be dynamically loaded -->
+                </div>
+            </div>
+
+            <!-- Add this section after submission is approved -->
+            <div class="submission-success" id="submissionSuccess" style="display: none;">
+                <div class="success-content">
+                    <div class="progress-circle">
+                        <svg width="120" height="120" viewBox="0 0 120 120">
+                            <circle class="bg" cx="60" cy="60" r="50"/>
+                            <circle class="progress" cx="60" cy="60" r="50"/>
+                        </svg>
+                        <div class="progress-text">
+                            <span class="points-earned">+100</span>
+                            <span class="points-label">points</span>
+                        </div>
+                    </div>
+                    
+                    <h3>Great Job!</h3>
+                    <p>Your trash collection has been verified and points have been awarded!</p>
+                    
+                    <div class="impact-stats">
+                        <div class="impact-stat">
+                            <i class="fas fa-leaf"></i>
+                            <span class="stat-value">2.5 kg</span>
+                            <span class="stat-label">CO₂ Reduced</span>
+                        </div>
+                        <div class="impact-stat">
+                            <i class="fas fa-tree"></i>
+                            <span class="stat-value">1</span>
+                            <span class="stat-label">Tree Equivalent</span>
+                        </div>
+        </div>
+
+                    <div class="action-buttons">
+                        <button class="submit-another-btn" onclick="resetForm()">
+                            <i class="fas fa-plus"></i> Submit Another
+                        </button>
+                        <a href="dashboard.html" class="view-stats-btn">
+                            <i class="fas fa-chart-line"></i> View My Stats
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Add this section to show rewards -->
+            <div class="rewards-panel">
+                <div class="rewards-header">
+                    <h3>Rewards & Achievements</h3>
+                    <div class="current-tier">
+                        <i class="fas fa-badge"></i>
+                        <span id="currentTier">Novice Collector</span>
+                    </div>
+                </div>
+
+                <div class="rewards-grid">
+                    <div class="reward-card">
+                        <div class="reward-icon">
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <div class="reward-info">
+                            <h4>Base Points</h4>
+                            <p id="basePoints">0</p>
+                        </div>
+                    </div>
+
+                    <div class="reward-card">
+                        <div class="reward-icon">
+                            <i class="fas fa-fire"></i>
+                        </div>
+                        <div class="reward-info">
+                            <h4>Streak Bonus</h4>
+                            <p id="streakMultiplier">x1.0</p>
+                        </div>
+                    </div>
+
+                    <div class="reward-card">
+                        <div class="reward-icon">
+                            <i class="fas fa-trophy"></i>
+                        </div>
+                        <div class="reward-info">
+                            <h4>Total Points</h4>
+                            <p id="totalPoints">0</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="achievements-showcase">
+                    <h4>Recent Achievements</h4>
+                    <div id="achievementsList" class="achievements-list">
+                        <!-- Achievements will be dynamically added here -->
+                    </div>
                 </div>
             </div>
         </div>

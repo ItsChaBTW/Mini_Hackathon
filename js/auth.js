@@ -57,8 +57,13 @@ class UserManager {
             this.isAdmin = user.isAdmin || false;
             localStorage.setItem('isAdmin', this.isAdmin);
             this.updateAuthUI();
-            // Redirect to dashboard after successful login
-            window.location.href = '../pages/dashboard.html';
+            
+            // Redirect based on user role
+            if (user.isAdmin) {
+                window.location.href = '../pages/admin.html';
+            } else {
+                window.location.href = '../pages/dashboard.html';
+            }
             return user;
         }
         throw new Error('Invalid credentials');
@@ -109,6 +114,15 @@ class UserManager {
             user.points += points;
             this.updateUserProfile(userId, { points: user.points });
         }
+    }
+
+    // Add method to check if current user is admin
+    checkAdminAccess() {
+        if (!this.currentUser || !this.isAdmin) {
+            window.location.href = '../pages/login.html';
+            return false;
+        }
+        return true;
     }
 }
 

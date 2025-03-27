@@ -47,32 +47,16 @@
 
     <script src="../js/auth.js"></script>
     <script>
-        document.getElementById('loginForm').addEventListener('submit', (e) => {
+        document.getElementById('loginForm').addEventListener('submit', async (e) => {
             e.preventDefault();
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
-            const messageDiv = document.getElementById('loginMessage');
 
             try {
-                const user = userManager.login(email, password);
-                
-                // Display success message
-                messageDiv.textContent = 'Login successful!';
-                messageDiv.style.display = 'block';
-                messageDiv.className = 'message success-message';
-                
-                // Redirect based on user type
-                setTimeout(() => {
-                    if (user.isAdmin) {
-                        window.location.href = 'admin.html';
-                    } else {
-                        window.location.href = '../index.html';
-                    }
-                }, 1000);
+                const user = await userManager.login(email, password);
+                // Login successful - redirect is handled in the login method
             } catch (error) {
-                messageDiv.textContent = error.message;
-                messageDiv.style.display = 'block';
-                messageDiv.className = 'message error-message';
+                alert(error.message);
             }
         });
         
