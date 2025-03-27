@@ -58,7 +58,7 @@ class UserManager {
             localStorage.setItem('isAdmin', this.isAdmin);
             this.updateAuthUI();
             // Redirect to dashboard after successful login
-            window.location.href = 'dashboard.html';
+            window.location.href = '../pages/dashboard.html';
             return user;
         }
         throw new Error('Invalid credentials');
