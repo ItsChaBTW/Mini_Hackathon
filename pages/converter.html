@@ -1,247 +1,66 @@
+@ -0,0 +1,174 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Trash Collection - PollutoGo</title>
+    <title>Trash Collection - EcoCollect</title>
     <link rel="stylesheet" href="../css/style.css">
-    <link rel="stylesheet" href="../css/dashboard.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
-    <nav class="dashboard-nav">
-        <div class="nav-left">
-            <div class="logo">
-                <i class="fas fa-leaf"></i>
-                <span>PollutoGo</span>
-            </div>
-            <div class="nav-search">
-                <i class="fas fa-search"></i>
-                <input type="text" placeholder="Search submissions...">
-            </div>
-        </div>
-        
-        <div class="nav-center">
-            <a href="lessons.html" class="nav-link">
-                <i class="fas fa-book"></i>
-                <span>Lessons</span>
-            </a>
-            <a href="dashboard.html" class="nav-link">
-                <i class="fas fa-chart-line"></i>
-                <span>Dashboard</span>
-            </a>
-            <a href="leaderboard.html" class="nav-link">
-                <i class="fas fa-trophy"></i>
-                <span>Leaderboard</span>
-            </a>
-            <a href="converter.html" class="nav-link active">
-                <i class="fas fa-recycle"></i>
-                <span>Converter</span>
-            </a>
-        </div>
-
-        <div class="nav-right">
-            <!-- Same as other pages -->
+    <nav class="navbar">
+        <div class="logo">EcoCollect</div>
+        <div class="nav-links">
+            <a href="../index.html">Home</a>
+            <a href="lessons.html">Environmental Lessons</a>
+            <a href="leaderboard.html">Leaderboard</a>
+            <a href="converter.html" class="active">Trash Collection</a>
+            <a href="profile.html">Profile</a>
+            <a href="login.html" id="loginBtn">Login</a>
+            <a href="signup.html" id="signupBtn">Sign Up</a>
+            <a href="#" id="logoutBtn" style="display: none;">Logout</a>
         </div>
     </nav>
 
-    <main class="converter-container">
-        <div class="page-hero">
-            <div class="hero-content">
-                <h1>Trash Collection Hub</h1>
-                <p>Turn your eco-friendly actions into rewards</p>
-                <div class="achievement-cards">
-                    <div class="achievement-card">
-                        <div class="achievement-icon">
-                            <i class="fas fa-leaf"></i>
-                        </div>
-                        <div class="achievement-info">
-                            <span class="achievement-value">1,234 kg</span>
-                            <span class="achievement-label">Total Collected</span>
-                        </div>
-                    </div>
-                    <div class="achievement-card">
-                        <div class="achievement-icon">
-                            <i class="fas fa-star"></i>
-                        </div>
-                        <div class="achievement-info">
-                            <span class="achievement-value">5,678</span>
-                            <span class="achievement-label">Points Earned</span>
-                        </div>
-                    </div>
-                    <div class="achievement-card">
-                        <div class="achievement-icon">
-                            <i class="fas fa-award"></i>
-                        </div>
-                        <div class="achievement-info">
-                            <span class="achievement-value">Level 12</span>
-                            <span class="achievement-label">Eco Warrior</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="content-wrapper">
-            <div class="submission-panel">
-                <div class="panel-header">
-                    <h2>New Collection</h2>
-                    <span class="badge">+50 bonus points today!</span>
-                </div>
-
-                <div class="waste-categories">
-                    <h3>Select Waste Type</h3>
-                    <div class="category-grid" id="trashTypes">
-                        <!-- Categories will be dynamically loaded -->
-                    </div>
-                </div>
-
-                <div class="upload-container">
-                    <h3>Upload Evidence</h3>
-                    <div class="upload-box" id="dropZone">
-                        <div class="upload-content">
-                            <i class="fas fa-cloud-upload-alt"></i>
-                            <h4>Drag and drop your image here</h4>
-                            <p>or</p>
-                            <label class="upload-button" for="trashImage">
-                                Choose File
-                                <input type="file" id="trashImage" accept="image/*" hidden>
-                            </label>
-                            <p class="upload-hint">Supported formats: JPG, PNG (max 5MB)</p>
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="trashDescription">Collection Details</label>
-                        <textarea 
-                            id="trashDescription" 
-                            placeholder="Describe your collection (location, type of waste, etc.)"
-                            rows="4"
-                        ></textarea>
-                    </div>
-
-                    <div class="submission-actions">
-                        <div class="points-indicator">
-                            <i class="fas fa-coins"></i>
-                            <span>Potential Reward:</span>
-                            <span class="points-value" id="potentialPoints">0 points</span>
-                        </div>
-                        <button type="submit" class="submit-button">
-                            <i class="fas fa-paper-plane"></i>
-                            Submit Collection
-                        </button>
-                    </div>
-                </div>
+    <main class="container">
+        <div class="submission-container">
+            <h2>Submit Your Trash Collection</h2>
+            <p>Select the type of trash you've collected, upload a photo, and earn points after verification!</p>
+            
+            <h3>Step 1: Select Trash Type</h3>
+            <div class="trash-types" id="trashTypes">
+                <!-- Trash types will be dynamically loaded here -->
             </div>
             
-            <div class="history-panel">
-                <div class="panel-header">
-                    <h2>Recent Collections</h2>
-                    <select class="status-filter" id="historyFilter">
-                        <option value="all">All Status</option>
-                        <option value="pending">Pending</option>
-                        <option value="approved">Approved</option>
-                        <option value="rejected">Rejected</option>
-                    </select>
+            <h3>Step 2: Upload Image and Details</h3>
+            <form id="trashSubmissionForm">
+                <div class="form-group">
+                    <label for="trashImage">Upload Image of Collected Trash*</label>
+                    <input type="file" id="trashImage" accept="image/*" required>
+                    <p class="input-help">Select an image file of the trash you've collected</p>
                 </div>
-
-                <div class="history-timeline" id="submissionHistory">
-                    <!-- History items will be dynamically loaded -->
+                <div class="form-group">
+                    <label for="trashDescription">Description (Optional)</label>
+                    <textarea id="trashDescription" rows="3" placeholder="Describe what you collected, where you found it, etc."></textarea>
                 </div>
-            </div>
-
-            <!-- Add this section after submission is approved -->
-            <div class="submission-success" id="submissionSuccess" style="display: none;">
-                <div class="success-content">
-                    <div class="progress-circle">
-                        <svg width="120" height="120" viewBox="0 0 120 120">
-                            <circle class="bg" cx="60" cy="60" r="50"/>
-                            <circle class="progress" cx="60" cy="60" r="50"/>
-                        </svg>
-                        <div class="progress-text">
-                            <span class="points-earned">+100</span>
-                            <span class="points-label">points</span>
-                        </div>
-                    </div>
-                    
-                    <h3>Great Job!</h3>
-                    <p>Your trash collection has been verified and points have been awarded!</p>
-                    
-                    <div class="impact-stats">
-                        <div class="impact-stat">
-                            <i class="fas fa-leaf"></i>
-                            <span class="stat-value">2.5 kg</span>
-                            <span class="stat-label">CO₂ Reduced</span>
-                        </div>
-                        <div class="impact-stat">
-                            <i class="fas fa-tree"></i>
-                            <span class="stat-value">1</span>
-                            <span class="stat-label">Tree Equivalent</span>
-                        </div>
+                <input type="hidden" id="selectedTrashType">
+                <p class="points-info">Potential points: <span id="potentialPoints">0</span> (after verification)</p>
+                <button type="submit" class="btn">Submit for Verification</button>
+            </form>
         </div>
 
-                    <div class="action-buttons">
-                        <button class="submit-another-btn" onclick="resetForm()">
-                            <i class="fas fa-plus"></i> Submit Another
-                        </button>
-                        <a href="dashboard.html" class="view-stats-btn">
-                            <i class="fas fa-chart-line"></i> View My Stats
-                        </a>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Add this section to show rewards -->
-            <div class="rewards-panel">
-                <div class="rewards-header">
-                    <h3>Rewards & Achievements</h3>
-                    <div class="current-tier">
-                        <i class="fas fa-badge"></i>
-                        <span id="currentTier">Novice Collector</span>
-                    </div>
-                </div>
-
-                <div class="rewards-grid">
-                    <div class="reward-card">
-                        <div class="reward-icon">
-                            <i class="fas fa-star"></i>
-                        </div>
-                        <div class="reward-info">
-                            <h4>Base Points</h4>
-                            <p id="basePoints">0</p>
-                        </div>
-                    </div>
-
-                    <div class="reward-card">
-                        <div class="reward-icon">
-                            <i class="fas fa-fire"></i>
-                        </div>
-                        <div class="reward-info">
-                            <h4>Streak Bonus</h4>
-                            <p id="streakMultiplier">x1.0</p>
-                        </div>
-                    </div>
-
-                    <div class="reward-card">
-                        <div class="reward-icon">
-                            <i class="fas fa-trophy"></i>
-                        </div>
-                        <div class="reward-info">
-                            <h4>Total Points</h4>
-                            <p id="totalPoints">0</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="achievements-showcase">
-                    <h4>Recent Achievements</h4>
-                    <div id="achievementsList" class="achievements-list">
-                        <!-- Achievements will be dynamically added here -->
-                    </div>
-                </div>
+        <div class="submissions-history">
+            <h2>Your Submission History</h2>
+            <div id="submissionHistory">
+                <!-- Submission history will be dynamically loaded here -->
             </div>
         </div>
     </main>
+
+    <footer>
+        <p>&copy; 2024 EcoCollect - Clean Environment Initiative. All rights reserved.</p>
+    </footer>
 
     <script src="../js/auth.js"></script>
     <script src="../js/main.js"></script>
@@ -350,56 +169,6 @@
 
             // Initial update of submission history
             updateSubmissionHistory();
-
-            // Add drag and drop functionality
-            const dropZone = document.getElementById('dropZone');
-            
-            ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
-                dropZone.addEventListener(eventName, preventDefaults, false);
-            });
-
-            function preventDefaults (e) {
-                e.preventDefault();
-                e.stopPropagation();
-            }
-
-            ['dragenter', 'dragover'].forEach(eventName => {
-                dropZone.addEventListener(eventName, highlight, false);
-            });
-
-            ['dragleave', 'drop'].forEach(eventName => {
-                dropZone.addEventListener(eventName, unhighlight, false);
-            });
-
-            function highlight(e) {
-                dropZone.classList.add('drag-hover');
-            }
-
-            function unhighlight(e) {
-                dropZone.classList.remove('drag-hover');
-            }
-
-            dropZone.addEventListener('drop', handleDrop, false);
-
-            function handleDrop(e) {
-                const dt = e.dataTransfer;
-                const files = dt.files;
-                handleFiles(files);
-            }
-
-            function handleFiles(files) {
-                if (files[0]) {
-                    const reader = new FileReader();
-                    reader.onload = function(e) {
-                        // Preview image or update UI
-                        dropZone.innerHTML = `
-                            <img src="${e.target.result}" alt="Preview" class="upload-preview">
-                            <button class="change-image-btn">Change Image</button>
-                        `;
-                    };
-                    reader.readAsDataURL(files[0]);
-                }
-            }
         });
     </script>
 </body>
