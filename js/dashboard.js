@@ -18,19 +18,7 @@ document.addEventListener('DOMContentLoaded', function() {
         alert('Profile editing will be implemented in a future update.');
     });
 
-    const profileDropdown = document.getElementById('profileDropdown');
-    const profileMenu = document.getElementById('profileMenu');
-    
-    profileDropdown.addEventListener('click', function() {
-        profileMenu.classList.toggle('active');
-    });
-    
-    // Close dropdown when clicking outside
-    document.addEventListener('click', function(event) {
-        if (!profileDropdown.contains(event.target) && !profileMenu.contains(event.target)) {
-            profileMenu.classList.remove('active');
-        }
-    });
+    initializeNavigation();
 });
 
 function updateUserProfile(user) {
@@ -113,4 +101,21 @@ function generateSampleReports() {
         
         reportsList.appendChild(reportItem);
     }
+}
+
+// Add this function to handle the dropdown menu
+function initializeNavigation() {
+    const profileDropdown = document.getElementById('profileDropdown');
+    const profileMenu = document.getElementById('profileMenu');
+    
+    profileDropdown.addEventListener('click', function() {
+        profileMenu.classList.toggle('active');
+    });
+    
+    // Close dropdown when clicking outside
+    document.addEventListener('click', function(event) {
+        if (!profileDropdown.contains(event.target) && !profileMenu.contains(event.target)) {
+            profileMenu.classList.remove('active');
+        }
+    });
 }
