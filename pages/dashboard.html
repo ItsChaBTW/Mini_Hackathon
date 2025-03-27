@@ -9,104 +9,189 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
-    <header>
-        <nav class="navbar">
+    <nav class="dashboard-nav">
+        <div class="nav-left">
             <div class="logo">
-                <h1><i class="fas fa-leaf"></i> PollutoGo</h1>
+                <i class="fas fa-leaf"></i>
+                <span>PollutoGo</span>
             </div>
-            <ul class="nav-links">
-                <li><a href="index.html" class="active">Home</a></li>
-                <li><a href="pages/lessons.html">Environmental Lessons</a></li>
-                <li><a href="dashboard.html">Dashboard</a></li>
-                <li><a href="pages/leaderboard.html">Leaderboard</a></li>
-                <li><a href="pages/admin.html" id="adminLink" style="display: none;">Admin</a></li>
-                <li><a href="pages/login.html" id="loginBtn">Login</a></li>
-                <li><a href="pages/signup.html" id="signupBtn">Sign Up</a></li>
-                <li><a href="#" id="logoutBtn" style="display: none;">Logout</a></li>
-            </ul>
-            <div class="menu-toggle" id="mobile-menu">
-                <span class="bar"></span>
-                <span class="bar"></span>
-                <span class="bar"></span>
+            <div class="nav-search">
+                <i class="fas fa-search"></i>
+                <input type="text" placeholder="Search...">
             </div>
-        </nav>
-    </header>
+        </div>
+        
+        <div class="nav-center">
+            <a href="dashboard.html" class="nav-link">
+                <i class="fas fa-home"></i>
+                <span>Home</span>
+            </a>
+            <a href="lessons.html" class="nav-link">
+                <i class="fas fa-book"></i>
+                <span>Lessons</span>
+            </a>
+            <a href="dashboard.html" class="nav-link active">
+                <i class="fas fa-chart-line"></i>
+                <span>Dashboard</span>
+            </a>
+            <a href="leaderboard.html" class="nav-link">
+                <i class="fas fa-trophy"></i>
+                <span>Leaderboard</span>
+            </a>
+        </div>
+
+        <div class="nav-right">
+            <button class="nav-btn" id="notificationBtn">
+                <i class="fas fa-bell"></i>
+                <span class="notification-badge">3</span>
+            </button>
+            <div class="nav-profile" id="profileDropdown">
+                <img src="https://img.freepik.com/premium-vector/avatar-profile-icon-flat-style-male-user-profile-vector-illustration-isolated-background-man-profile-sign-business-concept_157943-38764.jpg?semt=ais_hybrid" alt="Profile">
+                <span class="profile-name">John Doe</span>
+                <i class="fas fa-chevron-down"></i>
+            </div>
+        </div>
+    </nav>
+
+    <div class="dropdown-menu" id="profileMenu">
+        <div class="dropdown-header">
+            <img src="../images/default-profile.png" alt="Profile">
+            <div class="dropdown-user-info">
+                <span class="user-name">John Doe</span>
+                <span class="user-email">john@example.com</span>
+            </div>
+        </div>
+        <div class="dropdown-divider"></div>
+        <a href="profile.html" class="dropdown-item">
+            <i class="fas fa-user"></i>
+            <span>My Profile</span>
+        </a>
+        <a href="settings.html" class="dropdown-item">
+            <i class="fas fa-cog"></i>
+            <span>Settings</span>
+        </a>
+        <a href="admin.html" class="dropdown-item" id="adminLink" style="display: none;">
+            <i class="fas fa-shield-alt"></i>
+            <span>Admin Panel</span>
+        </a>
+        <div class="dropdown-divider"></div>
+        <a href="#" class="dropdown-item" id="logoutBtn">
+            <i class="fas fa-sign-out-alt"></i>
+            <span>Logout</span>
+        </a>
+    </div>
 
     <main class="dashboard-container">
         <section class="user-profile">
             <div class="profile-card">
                 <div class="profile-header">
                     <div class="profile-image">
-                        <img id="userProfilePic" src="images/default-profile.png" alt="Profile Picture">
+                        <img id="userProfilePic" src="../images/default-profile.png" alt="Profile Picture">
                     </div>
                     <div class="profile-info">
                         <h2 id="userDisplayName">Welcome!</h2>
                         <p id="userEmail">user@example.com</p>
-                        <p class="points"><i class="fas fa-star"></i> <span id="userPoints">0</span> points</p>
+                        <div class="points-badge">
+                            <i class="fas fa-star"></i> 
+                            <span id="userPoints">0</span> points
+                        </div>
                     </div>
-                </div>
-                <div class="profile-actions">
-                    <button id="editProfileBtn"><i class="fas fa-user-edit"></i> Edit Profile</button>
+                    <button id="editProfileBtn" class="edit-profile-btn">
+                        <i class="fas fa-user-edit"></i> Edit Profile
+                    </button>
                 </div>
             </div>
         </section>
 
-        <section class="dashboard-stats">
-            <h2>Your Activity</h2>
-            <div class="stats-grid">
-                <div class="stat-card">
-                    <i class="fas fa-flag"></i>
-                    <h3>Reports Submitted</h3>
-                    <p id="reportsCount">0</p>
+        <div class="dashboard-grid">
+            <section class="dashboard-stats">
+                <h2><i class="fas fa-chart-line"></i> Your Activity</h2>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-flag"></i>
+                        </div>
+                        <div class="stat-details">
+                            <h3>Reports Submitted</h3>
+                            <p id="reportsCount" class="stat-value">0</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-check-circle"></i>
+                        </div>
+                        <div class="stat-details">
+                            <h3>Verified Reports</h3>
+                            <p id="verifiedCount" class="stat-value">0</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-trophy"></i>
+                        </div>
+                        <div class="stat-details">
+                            <h3>Leaderboard Rank</h3>
+                            <p id="userRank" class="stat-value">-</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-calendar-alt"></i>
+                        </div>
+                        <div class="stat-details">
+                            <h3>Member Since</h3>
+                            <p id="memberSince" class="stat-value">-</p>
+                        </div>
+                    </div>
                 </div>
-                <div class="stat-card">
-                    <i class="fas fa-check-circle"></i>
-                    <h3>Verified Reports</h3>
-                    <p id="verifiedCount">0</p>
-                </div>
-                <div class="stat-card">
-                    <i class="fas fa-trophy"></i>
-                    <h3>Leaderboard Rank</h3>
-                    <p id="userRank">-</p>
-                </div>
-                <div class="stat-card">
-                    <i class="fas fa-calendar-alt"></i>
-                    <h3>Member Since</h3>
-                    <p id="memberSince">-</p>
-                </div>
-            </div>
-        </section>
+            </section>
 
-        <section class="environmental-impact">
-            <h2>Your Environmental Impact</h2>
-            <div class="impact-card">
-                <div class="impact-content">
-                    <div class="impact-stats">
-                        <div class="impact-stat">
-                            <div class="value" id="co2Saved">0</div>
-                            <div class="label">kg CO₂ Saved</div>
+            <section class="environmental-impact">
+                <h2><i class="fas fa-leaf"></i> Environmental Impact</h2>
+                <div class="impact-card">
+                    <div class="impact-content">
+                        <div class="impact-stats">
+                            <div class="impact-stat">
+                                <div class="impact-icon">
+                                    <i class="fas fa-cloud"></i>
+                                </div>
+                                <div class="value" id="co2Saved">0</div>
+                                <div class="label">kg CO₂ Saved</div>
+                            </div>
+                            <div class="impact-stat">
+                                <div class="impact-icon">
+                                    <i class="fas fa-tree"></i>
+                                </div>
+                                <div class="value" id="treesEquivalent">0</div>
+                                <div class="label">Trees Equivalent</div>
+                            </div>
+                            <div class="impact-stat">
+                                <div class="impact-icon">
+                                    <i class="fas fa-recycle"></i>
+                                </div>
+                                <div class="value" id="wasteRecycled">0</div>
+                                <div class="label">kg Waste Recycled</div>
+                            </div>
                         </div>
-                        <div class="impact-stat">
-                            <div class="value" id="treesEquivalent">0</div>
-                            <div class="label">Trees Equivalent</div>
+                        <div class="impact-message">
+                            <i class="fas fa-medal"></i>
+                            <p>Keep up the good work! Your contributions are making a difference.</p>
                         </div>
-                        <div class="impact-stat">
-                            <div class="value" id="wasteRecycled">0</div>
-                            <div class="label">kg Waste Recycled</div>
-                        </div>
-                    </div>
-                    <div class="impact-message">
-                        Keep up the good work! Your contributions are making a difference.
                     </div>
                 </div>
-            </div>
-        </section>
+            </section>
+        </div>
 
         <section class="recent-reports">
-            <h2>Your Recent Reports</h2>
+            <h2><i class="fas fa-history"></i> Recent Reports</h2>
             <div class="reports-list" id="userReportsList">
-                <!-- Reports will be populated dynamically -->
-                <p class="no-reports">No reports submitted yet.</p>
+                <div class="no-reports">
+                    <i class="fas fa-clipboard-list"></i>
+                    <p>No reports submitted yet.</p>
+                    <button class="create-report-btn">
+                        <i class="fas fa-plus"></i> Create Your First Report
+                    </button>
+                </div>
             </div>
         </section>
     </main>
@@ -125,7 +210,7 @@
             <div class="footer-section">
                 <h3>Quick Links</h3>
                 <ul>
-                    <li><a href="index.html">Home</a></li>
+                    <li><a href="../index.html">Home</a></li>
                     <li><a href="map.html">Pollution Map</a></li>
                     <li><a href="report.html">Report Pollution</a></li>
                     <li><a href="leaderboard.html">Leaderboard</a></li>

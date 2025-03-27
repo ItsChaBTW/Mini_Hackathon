@@ -17,6 +17,20 @@ document.addEventListener('DOMContentLoaded', function() {
         // Redirect to profile edit page or show modal
         alert('Profile editing will be implemented in a future update.');
     });
+
+    const profileDropdown = document.getElementById('profileDropdown');
+    const profileMenu = document.getElementById('profileMenu');
+    
+    profileDropdown.addEventListener('click', function() {
+        profileMenu.classList.toggle('active');
+    });
+    
+    // Close dropdown when clicking outside
+    document.addEventListener('click', function(event) {
+        if (!profileDropdown.contains(event.target) && !profileMenu.contains(event.target)) {
+            profileMenu.classList.remove('active');
+        }
+    });
 });
 
 function updateUserProfile(user) {
