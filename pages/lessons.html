@@ -35,6 +35,10 @@
                 <i class="fas fa-trophy"></i>
                 <span>Leaderboard</span>
             </a>
+            <a href="converter.html" class="nav-link">
+                <i class="fas fa-calculator"></i>
+                <span>Converter</span>
+            </a>
         </div>
 
         <div class="nav-right">
@@ -79,13 +83,107 @@
     </div>
 
     <main class="container">
-        <div class="lessons-header">
-            <h2>Environmental Education</h2>
-            <p>Learn about pollution, waste management, and how you can make a difference!</p>
+        <div class="lessons-hero">
+            <div class="hero-content">
+                <h1>Environmental Learning Hub</h1>
+                <p>Expand your knowledge and make a positive impact on our planet</p>
+                <div class="learning-stats">
+                    <div class="stat-item">
+                        <i class="fas fa-book-reader"></i>
+                        <div class="stat-info">
+                            <span class="stat-value">3</span>
+                            <span class="stat-label">Available Courses</span>
+                        </div>
+                    </div>
+                    <div class="stat-item">
+                        <i class="fas fa-star"></i>
+                        <div class="stat-info">
+                            <span class="stat-value">450</span>
+                            <span class="stat-label">Points to Earn</span>
+                        </div>
+                    </div>
+                    <div class="stat-item">
+                        <i class="fas fa-clock"></i>
+                        <div class="stat-info">
+                            <span class="stat-value">75min</span>
+                            <span class="stat-label">Total Duration</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-        
-        <div id="lessonList" class="lesson-grid">
-            <!-- Lessons will be dynamically loaded here -->
+
+        <div class="lessons-wrapper">
+            <div class="lessons-grid">
+                <div class="lesson-card">
+                    <div class="lesson-banner">
+                        <img src="https://images.unsplash.com/photo-1604187351574-c75ca79f5807?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80" alt="Environmental Pollution">
+                        <div class="lesson-difficulty beginner">
+                            <i class="fas fa-signal"></i> Beginner
+                        </div>
+                    </div>
+                    <div class="lesson-content">
+                        <div class="lesson-category">
+                            <i class="fas fa-globe"></i> Environmental Science
+                        </div>
+                        <h3>Introduction to Environmental Pollution</h3>
+                        <p>Learn about different types of pollution and their impact on our planet</p>
+                        <div class="lesson-meta">
+                            <span><i class="fas fa-clock"></i> 30 mins</span>
+                            <span><i class="fas fa-star"></i> 100 points</span>
+                        </div>
+                        <button class="start-lesson-btn" onclick="startLesson(1)">
+                            Start Learning <i class="fas fa-arrow-right"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="lesson-card">
+                    <div class="lesson-banner">
+                        <img src="https://images.unsplash.com/photo-1532996122724-e3c354a0b15b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80" alt="Waste Separation">
+                        <div class="lesson-difficulty intermediate">
+                            <i class="fas fa-signal"></i> Intermediate
+                        </div>
+                    </div>
+                    <div class="lesson-content">
+                        <div class="lesson-category">
+                            <i class="fas fa-recycle"></i> Waste Management
+                        </div>
+                        <h3>Proper Waste Separation Techniques</h3>
+                        <p>Learn how to properly sort and separate different types of waste</p>
+                        <div class="lesson-meta">
+                            <span><i class="fas fa-clock"></i> 20 mins</span>
+                            <span><i class="fas fa-star"></i> 150 points</span>
+                        </div>
+                        <button class="start-lesson-btn" onclick="startLesson(2)">
+                            Start Learning <i class="fas fa-arrow-right"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="lesson-card">
+                    <div class="lesson-banner">
+                        <img src="https://images.unsplash.com/photo-1605600659453-259d7bc51831?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80" alt="Plastic Pollution">
+                        <div class="lesson-difficulty advanced">
+                            <i class="fas fa-signal"></i> Advanced
+                        </div>
+                    </div>
+                    <div class="lesson-content">
+                        <div class="lesson-category">
+                            <i class="fas fa-water"></i> Ocean Conservation
+                        </div>
+                        <h3>Plastic Pollution: A Global Crisis</h3>
+                        <p>Understanding the impact of plastic waste on our oceans and environment</p>
+                        <div class="lesson-meta">
+                            <span><i class="fas fa-clock"></i> 25 mins</span>
+                            <span><i class="fas fa-star"></i> 200 points</span>
+                        </div>
+                        <button class="start-lesson-btn" onclick="startLesson(3)">
+                            Start Learning <i class="fas fa-arrow-right"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <div id="lessonContent" style="display: none;">
@@ -110,6 +208,7 @@
 
     <script src="../js/auth.js"></script>
     <script src="../js/main.js"></script>
+    <script src="../js/lessons.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const currentUser = userManager.currentUser;
