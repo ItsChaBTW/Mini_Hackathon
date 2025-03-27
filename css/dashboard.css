@@ -3,6 +3,8 @@
     max-width: 1200px;
     margin: 2rem auto;
     padding: 0 1rem;
+    position: relative;
+    z-index: 1;
 }
 
 /* User Profile Card */
@@ -702,6 +704,7 @@
     visibility: hidden;
     transform: translateY(-10px);
     transition: all 0.3s ease;
+    z-index: 1000;
 }
 
 .dropdown-menu.active {
@@ -993,4 +996,23 @@
     .podium-place {
         margin-bottom: 1rem !important;
     }
+}
+
+/* Add or update these styles in dashboard.css */
+
+body {
+    position: relative;
+}
+
+.dashboard-container {
+    position: relative;
+    z-index: 1;
+}
+
+.dashboard-nav {
+    z-index: 1000;
+}
+
+.dropdown-menu {
+    z-index: 1000;
 }

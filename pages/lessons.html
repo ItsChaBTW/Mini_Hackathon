@@ -22,10 +22,7 @@
         </div>
         
         <div class="nav-center">
-            <a href="../index.html" class="nav-link">
-                <i class="fas fa-home"></i>
-                <span>Home</span>
-            </a>
+            
             <a href="lessons.html" class="nav-link active">
                 <i class="fas fa-book"></i>
                 <span>Lessons</span>
@@ -185,6 +182,21 @@
                 displayLessonList();
             }
         });
+        document.addEventListener('DOMContentLoaded', function() {
+    const profileDropdown = document.getElementById('profileDropdown');
+    const profileMenu = document.getElementById('profileMenu');
+    
+    profileDropdown.addEventListener('click', function() {
+        profileMenu.classList.toggle('active');
+    });
+    
+    // Close dropdown when clicking outside
+    document.addEventListener('click', function(event) {
+        if (!profileDropdown.contains(event.target) && !profileMenu.contains(event.target)) {
+            profileMenu.classList.remove('active');
+        }
+    });
+});
     </script>
 </body>
 </html> 
