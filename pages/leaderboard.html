@@ -6,10 +6,11 @@
     <title>Environmental Leaders - EcoCollect</title>
     <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
     <nav class="navbar">
-        <div class="logo">EcoCollect</div>
+        <div class="logo"><i class="fas fa-leaf"></i> EcoCollect</div>
         <div class="nav-links">
             <a href="../index.html">Home</a>
             <a href="lessons.html">Environmental Lessons</a>
@@ -20,53 +21,122 @@
             <a href="signup.html" id="signupBtn">Sign Up</a>
             <a href="#" id="logoutBtn" style="display: none;">Logout</a>
         </div>
+        <div class="menu-toggle" id="mobile-menu">
+            <span class="bar"></span>
+            <span class="bar"></span>
+            <span class="bar"></span>
+        </div>
     </nav>
 
     <main class="container">
-        <div class="leaderboard-container">
-            <h2>Environmental Impact Leaders</h2>
+        <div class="page-header">
+            <h1>Environmental Impact Leaders</h1>
             <p>These eco-warriors are making the biggest difference by collecting and properly disposing of trash!</p>
-            
-            <div class="leaderboard-filters">
-                <select id="timeFilter">
-                    <option value="all">All Time</option>
-                    <option value="month">This Month</option>
-                    <option value="week">This Week</option>
-                </select>
-                <select id="categoryFilter">
-                    <option value="all">All Trash Types</option>
-                    <option value="plastic">Plastic</option>
-                    <option value="paper">Paper</option>
-                    <option value="glass">Glass</option>
-                    <option value="metal">Metal</option>
-                    <option value="ewaste">E-Waste</option>
-                    <option value="organic">Organic</option>
-                </select>
+        </div>
+        
+        <div class="leaderboard-container">
+            <div class="leaderboard-controls">
+                <div class="filter-group">
+                    <label for="timeFilter">Time Period</label>
+                    <select id="timeFilter" class="styled-select">
+                        <option value="all">All Time</option>
+                        <option value="month">This Month</option>
+                        <option value="week">This Week</option>
+                    </select>
+                </div>
+                
+                <div class="filter-group">
+                    <label for="categoryFilter">Category</label>
+                    <select id="categoryFilter" class="styled-select">
+                        <option value="all">All Trash Types</option>
+                        <option value="plastic">Plastic</option>
+                        <option value="paper">Paper</option>
+                        <option value="glass">Glass</option>
+                        <option value="metal">Metal</option>
+                        <option value="ewaste">E-Waste</option>
+                        <option value="organic">Organic</option>
+                    </select>
+                </div>
             </div>
             
             <div class="leaderboard-stats">
                 <div class="stat-card">
+                    <div class="stat-icon"><i class="fas fa-users"></i></div>
                     <h3 id="totalUsers">0</h3>
                     <p>Total Contributors</p>
                 </div>
                 <div class="stat-card">
+                    <div class="stat-icon"><i class="fas fa-star"></i></div>
                     <h3 id="totalPoints">0</h3>
                     <p>Total Points</p>
                 </div>
                 <div class="stat-card">
+                    <div class="stat-icon"><i class="fas fa-trash-alt"></i></div>
                     <h3 id="totalSubmissions">0</h3>
                     <p>Trash Submissions</p>
                 </div>
+                <div class="stat-card">
+                    <div class="stat-icon"><i class="fas fa-leaf"></i></div>
+                    <h3 id="co2Saved">0</h3>
+                    <p>kg CO₂ Saved</p>
+                </div>
+            </div>
+            
+            <div class="top-three-podium" id="topThreePodium">
+                <!-- Top 3 users will be displayed here -->
+            </div>
+            
+            <div class="leaderboard-tabs">
+                <button class="tab-btn active" data-tab="all">All Users</button>
+                <button class="tab-btn" data-tab="friends">Your Friends</button>
+                <button class="tab-btn" data-tab="nearby">Nearby Users</button>
             </div>
             
             <div class="leaderboard-list" id="leaderboardList">
                 <!-- Leaderboard entries will be dynamically loaded here -->
+                <div class="leaderboard-loading">
+                    <i class="fas fa-spinner fa-spin"></i>
+                    <p>Loading leaderboard data...</p>
+                </div>
+            </div>
+            
+            <div class="your-rank-card" id="yourRankCard">
+                <!-- Current user's rank will be displayed here -->
             </div>
         </div>
     </main>
 
     <footer>
-        <p>&copy; 2024 EcoCollect - Clean Environment Initiative. All rights reserved.</p>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3><i class="fas fa-leaf"></i> EcoCollect</h3>
+                <p>Join our mission to create a cleaner, greener planet through education and action.</p>
+                <div class="social-icons">
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="../index.html">Home</a></li>
+                    <li><a href="lessons.html">Lessons</a></li>
+                    <li><a href="leaderboard.html">Leaderboard</a></li>
+                    <li><a href="converter.html">Trash Collection</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Contact Us</h3>
+                <p><i class="fas fa-envelope"></i> info@ecocollect.com</p>
+                <p><i class="fas fa-phone"></i> +1 (555) 123-4567</p>
+                <p><i class="fas fa-map-marker-alt"></i> 123 Green Street, Eco City</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 EcoCollect - Clean Environment Initiative. All rights reserved.</p>
+        </div>
     </footer>
 
     <script src="../js/auth.js"></script>
@@ -80,48 +150,173 @@
             }
 
             const leaderboardList = document.getElementById('leaderboardList');
+            const topThreePodium = document.getElementById('topThreePodium');
+            const yourRankCard = document.getElementById('yourRankCard');
             const timeFilter = document.getElementById('timeFilter');
             const categoryFilter = document.getElementById('categoryFilter');
+            const tabButtons = document.querySelectorAll('.tab-btn');
             
             const totalUsersElement = document.getElementById('totalUsers');
             const totalPointsElement = document.getElementById('totalPoints');
             const totalSubmissionsElement = document.getElementById('totalSubmissions');
+            const co2SavedElement = document.getElementById('co2Saved');
 
             function updateLeaderboard() {
-                const topUsers = leaderboardManager.getTopUsers(10);
+                const topUsers = leaderboardManager.getTopUsers(20);
                 
                 // Update stats
                 const allUsers = JSON.parse(localStorage.getItem('users')) || [];
                 const allSubmissions = JSON.parse(localStorage.getItem('trashSubmissions')) || [];
                 const approvedSubmissions = allSubmissions.filter(sub => sub.status === 'approved');
                 
+                const totalPoints = allUsers.reduce((sum, user) => sum + user.points, 0);
                 totalUsersElement.textContent = allUsers.length;
-                totalPointsElement.textContent = allUsers.reduce((sum, user) => sum + user.points, 0);
+                totalPointsElement.textContent = totalPoints;
                 totalSubmissionsElement.textContent = allSubmissions.length;
+                co2SavedElement.textContent = Math.floor(totalPoints * 0.5); // Estimate CO2 impact
                 
+                // Create top 3 podium
                 if (topUsers.length > 0) {
+                    // Rearrange for podium (2nd, 1st, 3rd)
+                    const podiumOrder = [];
+                    if (topUsers.length >= 3) {
+                        podiumOrder.push(topUsers[1], topUsers[0], topUsers[2]);
+                    } else if (topUsers.length === 2) {
+                        podiumOrder.push(topUsers[1], topUsers[0]);
+                    } else {
+                        podiumOrder.push(null, topUsers[0], null);
+                    }
+                    
+                    topThreePodium.innerHTML = `
+                        <div class="podium-container">
+                            ${podiumOrder.map((user, index) => {
+                                if (!user) return `<div class="podium-place empty place-${index === 0 ? '2' : index === 1 ? '1' : '3'}"></div>`;
+                                
+                                const placement = index === 0 ? 2 : index === 1 ? 1 : 3;
+                                const isCurrentUser = user.id === currentUser.id;
+                                
+                                return `
+                                    <div class="podium-place place-${placement} ${isCurrentUser ? 'current-user' : ''}">
+                                        <div class="podium-medal">
+                                            <i class="fas fa-medal medal-${placement}"></i>
+                                        </div>
+                                        <div class="podium-avatar">
+                                            <img src="${user.profilePicture || 'https://via.placeholder.com/80'}" alt="${user.username}">
+                                        </div>
+                                        <div class="podium-info">
+                                            <h3>${user.username} ${isCurrentUser ? '(You)' : ''}</h3>
+                                            <p>${user.points} points</p>
+                                        </div>
+                                        <div class="podium-rank">${placement}</div>
+                                    </div>
+                                `;
+                            }).join('')}
+                        </div>
+                    `;
+                } else {
+                    topThreePodium.innerHTML = '<div class="no-data">No users on the leaderboard yet. Start collecting trash to become the first!</div>';
+                }
+                
+                // Update leaderboard list (skip top 3)
+                if (topUsers.length > 3) {
                     leaderboardList.innerHTML = topUsers
+                        .slice(3) // Skip top 3 who are on the podium
                         .map((user, index) => {
                             const isCurrentUser = user.id === currentUser.id;
+                            const rank = index + 4; // +4 because we're starting after the top 3
+                            
+                            // Random achievements for demo
+                            const achievements = [];
+                            if (user.points > 500) achievements.push('<i class="fas fa-certificate" title="Over 500 points"></i>');
+                            if (rank < 10) achievements.push('<i class="fas fa-trophy" title="Top 10 Contributor"></i>');
+                            if (Math.random() > 0.5) achievements.push('<i class="fas fa-fire" title="On a streak"></i>');
+                            
                             return `
                                 <div class="leaderboard-item ${isCurrentUser ? 'current-user' : ''}">
-                                    <div class="rank">#${index + 1}</div>
+                                    <div class="rank">${rank}</div>
                                     <div class="user-info">
                                         <img src="${user.profilePicture || 'https://via.placeholder.com/40'}" alt="${user.username}" class="user-avatar">
-                                        <span class="username">${user.username} ${isCurrentUser ? '(You)' : ''}</span>
+                                        <div>
+                                            <span class="username">${user.username} ${isCurrentUser ? '(You)' : ''}</span>
+                                            <div class="user-achievements">${achievements.join(' ')}</div>
+                                        </div>
                                     </div>
-                                    <div class="points">${user.points} points</div>
+                                    <div class="user-stats">
+                                        <div class="submissions">${Math.floor(user.points / 50)} submissions</div>
+                                        <div class="points">${user.points} points</div>
+                                    </div>
                                 </div>
                             `;
                         })
                         .join('');
                 } else {
-                    leaderboardList.innerHTML = '<p>No users on the leaderboard yet. Start collecting trash to become the first!</p>';
+                    leaderboardList.innerHTML = '<div class="no-data">Not enough users on the leaderboard yet.</div>';
+                }
+                
+                // Find and display current user's rank
+                const currentUserRank = topUsers.findIndex(user => user.id === currentUser.id) + 1;
+                
+                if (currentUserRank > 0) {
+                    const userRankText = currentUserRank <= 3 ? 
+                        `Congratulations! You're in the top 3 - on the podium!` : 
+                        `You're ranked #${currentUserRank} out of ${topUsers.length} users`;
+                    
+                    yourRankCard.innerHTML = `
+                        <div class="your-rank-content">
+                            <div class="your-rank-avatar">
+                                <img src="${currentUser.profilePicture || 'https://via.placeholder.com/60'}" alt="${currentUser.username}">
+                            </div>
+                            <div class="your-rank-info">
+                                <h3>Your Current Ranking</h3>
+                                <p>${userRankText}</p>
+                                <div class="rank-progress">
+                                    <div class="progress-bar" style="width: ${(1 - currentUserRank/topUsers.length) * 100}%"></div>
+                                </div>
+                                <p class="rank-tip">
+                                    ${currentUserRank > 1 ? 
+                                        `You need ${topUsers[currentUserRank-2].points - currentUser.points} more points to advance to rank #${currentUserRank-1}` : 
+                                        `You're in the lead! Keep going to maintain your position.`}
+                                </p>
+                            </div>
+                        </div>
+                    `;
+                } else {
+                    yourRankCard.innerHTML = `
+                        <div class="your-rank-content">
+                            <div class="your-rank-avatar">
+                                <img src="${currentUser.profilePicture || 'https://via.placeholder.com/60'}" alt="${currentUser.username}">
+                            </div>
+                            <div class="your-rank-info">
+                                <h3>You're Not Ranked Yet</h3>
+                                <p>Start collecting trash and earning points to appear on the leaderboard!</p>
+                                <a href="converter.html" class="btn btn-primary">Submit Trash Collection</a>
+                            </div>
+                        </div>
+                    `;
                 }
             }
 
             timeFilter.addEventListener('change', updateLeaderboard);
             categoryFilter.addEventListener('change', updateLeaderboard);
+            
+            // Tab switching functionality
+            tabButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    // Remove active class from all buttons
+                    tabButtons.forEach(btn => btn.classList.remove('active'));
+                    // Add active class to clicked button
+                    button.classList.add('active');
+                    
+                    // This is just a demo, in real app would filter differently
+                    updateLeaderboard();
+                });
+            });
+            
+            // Mobile menu toggle
+            document.getElementById('mobile-menu').addEventListener('click', function() {
+                this.classList.toggle('active');
+                document.querySelector('.nav-links').classList.toggle('active');
+            });
 
             updateLeaderboard();
         });
