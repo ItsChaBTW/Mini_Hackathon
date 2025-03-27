@@ -57,6 +57,8 @@ class UserManager {
             this.isAdmin = user.isAdmin || false;
             localStorage.setItem('isAdmin', this.isAdmin);
             this.updateAuthUI();
+            // Redirect to dashboard after successful login
+            window.location.href = 'dashboard.html';
             return user;
         }
         throw new Error('Invalid credentials');
@@ -123,4 +125,4 @@ document.addEventListener('DOMContentLoaded', () => {
             window.location.href = 'index.html';
         });
     }
-}); 
+});

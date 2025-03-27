@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - PolluToGo</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/dashboard.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="logo">
+                <h1><i class="fas fa-leaf"></i> PollutoGo</h1>
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html" class="active">Home</a></li>
+                <li><a href="pages/lessons.html">Environmental Lessons</a></li>
+                <li><a href="dashboard.html">Dashboard</a></li>
+                <li><a href="pages/leaderboard.html">Leaderboard</a></li>
+                <li><a href="pages/admin.html" id="adminLink" style="display: none;">Admin</a></li>
+                <li><a href="pages/login.html" id="loginBtn">Login</a></li>
+                <li><a href="pages/signup.html" id="signupBtn">Sign Up</a></li>
+                <li><a href="#" id="logoutBtn" style="display: none;">Logout</a></li>
+            </ul>
+            <div class="menu-toggle" id="mobile-menu">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </nav>
+    </header>
+
+    <main class="dashboard-container">
+        <section class="user-profile">
+            <div class="profile-card">
+                <div class="profile-header">
+                    <div class="profile-image">
+                        <img id="userProfilePic" src="images/default-profile.png" alt="Profile Picture">
+                    </div>
+                    <div class="profile-info">
+                        <h2 id="userDisplayName">Welcome!</h2>
+                        <p id="userEmail">user@example.com</p>
+                        <p class="points"><i class="fas fa-star"></i> <span id="userPoints">0</span> points</p>
+                    </div>
+                </div>
+                <div class="profile-actions">
+                    <button id="editProfileBtn"><i class="fas fa-user-edit"></i> Edit Profile</button>
+                </div>
+            </div>
+        </section>
+
+        <section class="dashboard-stats">
+            <h2>Your Activity</h2>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <i class="fas fa-flag"></i>
+                    <h3>Reports Submitted</h3>
+                    <p id="reportsCount">0</p>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-check-circle"></i>
+                    <h3>Verified Reports</h3>
+                    <p id="verifiedCount">0</p>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-trophy"></i>
+                    <h3>Leaderboard Rank</h3>
+                    <p id="userRank">-</p>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-calendar-alt"></i>
+                    <h3>Member Since</h3>
+                    <p id="memberSince">-</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="environmental-impact">
+            <h2>Your Environmental Impact</h2>
+            <div class="impact-card">
+                <div class="impact-content">
+                    <div class="impact-stats">
+                        <div class="impact-stat">
+                            <div class="value" id="co2Saved">0</div>
+                            <div class="label">kg CO₂ Saved</div>
+                        </div>
+                        <div class="impact-stat">
+                            <div class="value" id="treesEquivalent">0</div>
+                            <div class="label">Trees Equivalent</div>
+                        </div>
+                        <div class="impact-stat">
+                            <div class="value" id="wasteRecycled">0</div>
+                            <div class="label">kg Waste Recycled</div>
+                        </div>
+                    </div>
+                    <div class="impact-message">
+                        Keep up the good work! Your contributions are making a difference.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="recent-reports">
+            <h2>Your Recent Reports</h2>
+            <div class="reports-list" id="userReportsList">
+                <!-- Reports will be populated dynamically -->
+                <p class="no-reports">No reports submitted yet.</p>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>About PolluToGo</h3>
+                <p>Join our mission to create a cleaner, healthier planet by reporting and reducing pollution in your community.</p>
+                <div class="social-icons">
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="map.html">Pollution Map</a></li>
+                    <li><a href="report.html">Report Pollution</a></li>
+                    <li><a href="leaderboard.html">Leaderboard</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Contact Us</h3>
+                <p>Email: info@pollutogo.com</p>
+                <p>Phone: (123) 456-7890</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2023 PolluToGo. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="../js/auth.js"></script>
+    <script src="../js/dashboard.js"></script>
+</body>
+</html>
