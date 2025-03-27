@@ -390,8 +390,8 @@
     </style>
 </head>
 <body>
-    <header>
-        <nav class="navbar">
+    <nav class="dashboard-nav">
+        <div class="nav-left">
             <div class="logo">
                 <i class="fas fa-leaf"></i>
                 <span>PollutoGo</span>
@@ -400,22 +400,64 @@
                 <i class="fas fa-search"></i>
                 <input type="text" placeholder="Search...">
             </div>
-            <ul class="nav-links">
-                <li><a href="pages/lessons.html">Environmental Lessons</a></li>
-                <li><a href="dashboard.html">Dashboard</a></li>
-                <li><a href="pages/leaderboard.html">Leaderboard</a></li>
-                <li><a href="pages/admin.html" id="adminLink" style="display: none;">Admin</a></li>
-                <li><a href="pages/login.html" id="loginBtn">Login</a></li>
-                <li><a href="pages/signup.html" id="signupBtn">Sign Up</a></li>
-                <li><a href="#" id="logoutBtn" style="display: none;">Logout</a></li>
-            </ul>
-            <div class="menu-toggle" id="mobile-menu">
-                <span class="bar"></span>
-                <span class="bar"></span>
-                <span class="bar"></span>
+        </div>
+        
+        <div class="nav-center">
+            
+            <a href="lessons.html" class="nav-link">
+                <i class="fas fa-book"></i>
+                <span>Lessons</span>
+            </a>
+            <a href="dashboard.html" class="nav-link active">
+                <i class="fas fa-chart-line"></i>
+                <span>Dashboard</span>
+            </a>
+            <a href="leaderboard.html" class="nav-link">
+                <i class="fas fa-trophy"></i>
+                <span>Leaderboard</span>
+            </a>
+        </div>
+
+        <div class="nav-right">
+            <button class="nav-btn" id="notificationBtn">
+                <i class="fas fa-bell"></i>
+                <span class="notification-badge">3</span>
+            </button>
+            <div class="nav-profile" id="profileDropdown">
+                <img src="../images/default-profile.png" alt="Profile">
+                <span class="profile-name">John Doe</span>
+                <i class="fas fa-chevron-down"></i>
             </div>
-        </nav>
-    </header>
+        </div>
+    </nav>
+
+    <div class="dropdown-menu" id="profileMenu">
+        <div class="dropdown-header">
+            <img src="../images/default-profile.png" alt="Profile">
+            <div class="dropdown-user-info">
+                <span class="user-name">John Doe</span>
+                <span class="user-email">john@example.com</span>
+            </div>
+        </div>
+        <div class="dropdown-divider"></div>
+        <a href="profile.html" class="dropdown-item">
+            <i class="fas fa-user"></i>
+            <span>My Profile</span>
+        </a>
+        <a href="settings.html" class="dropdown-item">
+            <i class="fas fa-cog"></i>
+            <span>Settings</span>
+        </a>
+        <a href="admin.html" class="dropdown-item" id="adminLink" style="display: none;">
+            <i class="fas fa-shield-alt"></i>
+            <span>Admin Panel</span>
+        </a>
+        <div class="dropdown-divider"></div>
+        <a href="#" class="dropdown-item" id="logoutBtn">
+            <i class="fas fa-sign-out-alt"></i>
+            <span>Logout</span>
+        </a>
+    </div>
 
     <main class="dashboard-container">
         <section class="user-profile">
