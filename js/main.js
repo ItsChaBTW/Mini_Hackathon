@@ -153,9 +153,9 @@ class TrashSubmissionManager {
         this.trashTypes = [
             { id: 'plastic', name: 'Plastic', points: 10, image: 'https://images.unsplash.com/photo-1572964734607-0051976fac79?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80' },
             { id: 'paper', name: 'Paper', points: 5, image: 'https://images.unsplash.com/photo-1558591710-4b4a1ae0f04d?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80' },
-            { id: 'glass', name: 'Glass', points: 15, image: 'https://images.unsplash.com/photo-1612965110642-11deb35711db?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80' },
-            { id: 'metal', name: 'Metal', points: 20, image: 'https://images.unsplash.com/photo-1561121712-9d3cb5a2f5c7?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80' },
-            { id: 'ewaste', name: 'E-Waste', points: 30, image: 'https://images.unsplash.com/photo-1610416953538-2a21479fbcc8?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80' },
+            { id: 'glass', name: 'Glass', points: 15, image: 'https://www.leeglass.com/wp-content/uploads/2019/08/iStock-1081866910.jpg' },
+            { id: 'metal', name: 'Metal', points: 20, image: 'https://previews.123rf.com/images/vovashevchuk/vovashevchuk1407/vovashevchuk140700065/30485772-rusty-metal-garbage-as-a-texture.jpg' },
+            { id: 'ewaste', name: 'E-Waste', points: 30, image: 'https://www.treehugger.com/thmb/LvSRRu3lVNEJhR6EBffMjuTeeVs=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/computer--metal-and-iron-dump---11-172261628-cb98d1a1079745e9a13a25f240b8e2f1.jpg' },
             { id: 'organic', name: 'Organic', points: 5, image: 'https://images.unsplash.com/photo-1587132137056-bfbf0166836e?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80' }
         ];
     }
