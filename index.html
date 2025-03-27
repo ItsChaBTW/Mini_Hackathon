@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EcoCollect - Clean Environment Initiative</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo">EcoCollect</div>
+        <div class="nav-links">
+            <a href="index.html" class="active">Home</a>
+            <a href="pages/lessons.html">Environmental Lessons</a>
+            <a href="pages/leaderboard.html">Leaderboard</a>
+            <a href="pages/converter.html">Trash Collection</a>
+            <a href="pages/profile.html">Profile</a>
+            <a href="pages/login.html" id="loginBtn">Login</a>
+            <a href="pages/signup.html" id="signupBtn">Sign Up</a>
+            <a href="#" id="logoutBtn" style="display: none;">Logout</a>
+        </div>
+    </nav>
+
+    <main class="container">
+        <section class="hero">
+            <h1>Join the Fight Against Pollution</h1>
+            <p>Learn, collect trash, earn points, and make our planet cleaner!</p>
+        </section>
+
+        <section class="featured-lessons">
+            <h2>Learn About Environmental Issues</h2>
+            <div class="lesson-grid" id="featuredLessons">
+                <!-- Lessons will be dynamically loaded here -->
+            </div>
+        </section>
+
+        <section class="top-learners">
+            <h2>Top Environmental Contributors</h2>
+            <div class="leaderboard-preview" id="topLearners">
+                <!-- Top learners will be dynamically loaded here -->
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 EcoCollect - Clean Environment Initiative. All rights reserved.</p>
+    </footer>
+
+    <script src="js/main.js"></script>
+    <script src="js/auth.js"></script>
+</body>
+</html> 

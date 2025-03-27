@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up - EcoCollect</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo">EcoCollect</div>
+        <div class="nav-links">
+            <a href="../index.html">Home</a>
+            <a href="lessons.html">Environmental Lessons</a>
+            <a href="leaderboard.html">Leaderboard</a>
+            <a href="converter.html">Trash Collection</a>
+            <a href="profile.html">Profile</a>
+            <a href="login.html">Login</a>
+            <a href="signup.html" class="active">Sign Up</a>
+        </div>
+    </nav>
+
+    <main class="container">
+        <div class="form-container">
+            <h2>Join EcoCollect</h2>
+            <p>Create your account and start helping the environment today!</p>
+            <form id="signupForm">
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <input type="text" id="username" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" required>
+                </div>
+                <div class="form-group">
+                    <label for="confirmPassword">Confirm Password</label>
+                    <input type="password" id="confirmPassword" required>
+                </div>
+                <div class="form-group">
+                    <label for="profilePicture">Profile Picture (URL)</label>
+                    <input type="url" id="profilePicture" placeholder="Paste a URL to your profile image">
+                </div>
+                <button type="submit" class="btn">Create Account</button>
+            </form>
+            <p class="form-footer">
+                Already have an account? <a href="login.html">Login</a>
+            </p>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 EcoCollect - Clean Environment Initiative. All rights reserved.</p>
+    </footer>
+
+    <script src="../js/auth.js"></script>
+    <script>
+        document.getElementById('signupForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const username = document.getElementById('username').value;
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            const profilePicture = document.getElementById('profilePicture').value;
+
+            if (password !== confirmPassword) {
+                alert('Passwords do not match');
+                return;
+            }
+
+            try {
+                userManager.register(username, email, password, profilePicture || null);
+                userManager.login(email, password);
+                window.location.href = '../index.html';
+            } catch (error) {
+                alert(error.message);
+            }
+        });
+    </script>
+</body>
+</html> 

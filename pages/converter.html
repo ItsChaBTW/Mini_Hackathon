@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trash Collection - EcoCollect</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo">EcoCollect</div>
+        <div class="nav-links">
+            <a href="../index.html">Home</a>
+            <a href="lessons.html">Environmental Lessons</a>
+            <a href="leaderboard.html">Leaderboard</a>
+            <a href="converter.html" class="active">Trash Collection</a>
+            <a href="profile.html">Profile</a>
+            <a href="login.html" id="loginBtn">Login</a>
+            <a href="signup.html" id="signupBtn">Sign Up</a>
+            <a href="#" id="logoutBtn" style="display: none;">Logout</a>
+        </div>
+    </nav>
+
+    <main class="container">
+        <div class="submission-container">
+            <h2>Submit Your Trash Collection</h2>
+            <p>Select the type of trash you've collected, upload a photo, and earn points after verification!</p>
+            
+            <h3>Step 1: Select Trash Type</h3>
+            <div class="trash-types" id="trashTypes">
+                <!-- Trash types will be dynamically loaded here -->
+            </div>
+            
+            <h3>Step 2: Upload Image and Details</h3>
+            <form id="trashSubmissionForm">
+                <div class="form-group">
+                    <label for="trashImage">Upload Image of Collected Trash*</label>
+                    <input type="file" id="trashImage" accept="image/*" required>
+                    <p class="input-help">Select an image file of the trash you've collected</p>
+                </div>
+                <div class="form-group">
+                    <label for="trashDescription">Description (Optional)</label>
+                    <textarea id="trashDescription" rows="3" placeholder="Describe what you collected, where you found it, etc."></textarea>
+                </div>
+                <input type="hidden" id="selectedTrashType">
+                <p class="points-info">Potential points: <span id="potentialPoints">0</span> (after verification)</p>
+                <button type="submit" class="btn">Submit for Verification</button>
+            </form>
+        </div>
+
+        <div class="submissions-history">
+            <h2>Your Submission History</h2>
+            <div id="submissionHistory">
+                <!-- Submission history will be dynamically loaded here -->
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 EcoCollect - Clean Environment Initiative. All rights reserved.</p>
+    </footer>
+
+    <script src="../js/auth.js"></script>
+    <script src="../js/main.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const currentUser = userManager.currentUser;
+            if (!currentUser) {
+                window.location.href = 'login.html';
+                return;
+            }
+
+            // Load trash types
+            const trashTypesContainer = document.getElementById('trashTypes');
+            const trashTypes = trashSubmissionManager.getTrashTypes();
+            trashTypesContainer.innerHTML = trashTypes
+                .map(type => `
+                    <div class="trash-type" data-id="${type.id}" data-points="${type.points}">
+                        <img src="${type.image}" alt="${type.name}">
+                        <h4>${type.name}</h4>
+                        <p>${type.points} points</p>
+                    </div>
+                `)
+                .join('');
+
+            // Add event listeners to trash types
+            const trashTypeElements = document.querySelectorAll('.trash-type');
+            const selectedTrashTypeInput = document.getElementById('selectedTrashType');
+            const potentialPointsSpan = document.getElementById('potentialPoints');
+
+            trashTypeElements.forEach(el => {
+                el.addEventListener('click', () => {
+                    // Remove selected class from all trash types
+                    trashTypeElements.forEach(item => item.classList.remove('selected'));
+                    
+                    // Add selected class to clicked trash type
+                    el.classList.add('selected');
+                    
+                    // Set hidden input value
+                    selectedTrashTypeInput.value = el.dataset.id;
+                    
+                    // Update potential points
+                    potentialPointsSpan.textContent = el.dataset.points;
+                });
+            });
+
+            // Handle form submission
+            const trashSubmissionForm = document.getElementById('trashSubmissionForm');
+            trashSubmissionForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                
+                const trashTypeId = selectedTrashTypeInput.value;
+                const imageFile = document.getElementById('trashImage').files[0];
+                const description = document.getElementById('trashDescription').value;
+                
+                if (!trashTypeId) {
+                    alert('Please select a trash type');
+                    return;
+                }
+                
+                if (!imageFile) {
+                    alert('Please select an image file');
+                    return;
+                }
+                
+                // Read the file as a data URL
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    const imageDataUrl = event.target.result;
+                    trashSubmissionManager.addSubmission(currentUser.id, trashTypeId, imageDataUrl, description);
+                    alert('Your submission has been received and is pending verification!');
+                    updateSubmissionHistory();
+                    trashSubmissionForm.reset();
+                    trashTypeElements.forEach(item => item.classList.remove('selected'));
+                    potentialPointsSpan.textContent = '0';
+                };
+                reader.readAsDataURL(imageFile);
+            });
+
+            // Update submission history
+            function updateSubmissionHistory() {
+                const submissionHistory = document.getElementById('submissionHistory');
+                const userSubmissions = trashSubmissionManager.getUserSubmissions(currentUser.id);
+                
+                if (userSubmissions.length > 0) {
+                    submissionHistory.innerHTML = userSubmissions
+                        .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+                        .map(submission => `
+                            <div class="submission-item">
+                                <img src="${submission.imageUrl}" alt="${submission.trashTypeName}">
+                                <div class="submission-info">
+                                    <h4>${submission.trashTypeName}</h4>
+                                    <p>${submission.description || 'No description provided'}</p>
+                                    <p>Potential points: ${submission.potentialPoints}</p>
+                                    <p>Submitted: ${new Date(submission.createdAt).toLocaleDateString()}</p>
+                                    <span class="submission-status status-${submission.status}">
+                                        ${submission.status.charAt(0).toUpperCase() + submission.status.slice(1)}
+                                    </span>
+                                </div>
+                            </div>
+                        `)
+                        .join('');
+                } else {
+                    submissionHistory.innerHTML = '<p>No submissions yet. Start collecting trash to earn points!</p>';
+                }
+            }
+
+            // Initial update of submission history
+            updateSubmissionHistory();
+        });
+    </script>
+</body>
+</html>

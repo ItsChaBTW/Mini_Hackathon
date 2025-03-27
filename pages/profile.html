@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Profile - EcoCollect</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo">EcoCollect</div>
+        <div class="nav-links">
+            <a href="../index.html">Home</a>
+            <a href="lessons.html">Environmental Lessons</a>
+            <a href="leaderboard.html">Leaderboard</a>
+            <a href="converter.html">Trash Collection</a>
+            <a href="profile.html" class="active">Profile</a>
+            <a href="login.html" id="loginBtn">Login</a>
+            <a href="signup.html" id="signupBtn">Sign Up</a>
+            <a href="#" id="logoutBtn" style="display: none;">Logout</a>
+        </div>
+    </nav>
+
+    <main class="container">
+        <div class="profile-container">
+            <div class="profile-sidebar">
+                <img id="profileImage" src="https://via.placeholder.com/200" alt="Profile Picture" class="profile-image">
+                <h3 id="profileUsername">Username</h3>
+                <p id="profileEmail">email@example.com</p>
+                <p id="profilePoints">Points: 0</p>
+                <div id="environmentalBadges">
+                    <!-- Badges will appear here based on points -->
+                </div>
+                <button id="updateProfileBtn" class="btn">Update Profile</button>
+            </div>
+            <div class="profile-content">
+                <h2>Environmental Profile</h2>
+                <div id="environmentalStats" class="stats-container">
+                    <div class="stat-card">
+                        <h3 id="userSubmissions">0</h3>
+                        <p>Trash Submissions</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3 id="userApproved">0</h3>
+                        <p>Approved Submissions</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3 id="userLessons">0</h3>
+                        <p>Lessons Completed</p>
+                    </div>
+                </div>
+                <form id="profileForm" style="display: none;">
+                    <div class="form-group">
+                        <label for="updateUsername">Username</label>
+                        <input type="text" id="updateUsername" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="updateEmail">Email</label>
+                        <input type="email" id="updateEmail" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="updateProfilePicture">Profile Picture URL</label>
+                        <input type="url" id="updateProfilePicture">
+                    </div>
+                    <button type="submit" class="btn">Save Changes</button>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 EcoCollect - Clean Environment Initiative. All rights reserved.</p>
+    </footer>
+
+    <script src="../js/auth.js"></script>
+    <script src="../js/main.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const currentUser = userManager.currentUser;
+            if (!currentUser) {
+                window.location.href = 'login.html';
+                return;
+            }
+
+            // Update profile display
+            document.getElementById('profileImage').src = currentUser.profilePicture || 'https://via.placeholder.com/200';
+            document.getElementById('profileUsername').textContent = currentUser.username;
+            document.getElementById('profileEmail').textContent = currentUser.email;
+            document.getElementById('profilePoints').textContent = `Points: ${currentUser.points}`;
+
+            // Calculate environmental stats
+            const allSubmissions = JSON.parse(localStorage.getItem('trashSubmissions')) || [];
+            const userSubmissions = allSubmissions.filter(sub => sub.userId === currentUser.id);
+            const approvedSubmissions = userSubmissions.filter(sub => sub.status === 'approved');
+            
+            // Update stats display
+            document.getElementById('userSubmissions').textContent = userSubmissions.length;
+            document.getElementById('userApproved').textContent = approvedSubmissions.length;
+            // This is a placeholder - in a real app you'd track completed lessons
+            document.getElementById('userLessons').textContent = Math.floor(currentUser.points / 100); 
+
+            // Award badges based on points
+            const badgesElement = document.getElementById('environmentalBadges');
+            const badges = [];
+            
+            if (currentUser.points >= 100) badges.push({ name: 'Eco Beginner', icon: '🌱' });
+            if (currentUser.points >= 300) badges.push({ name: 'Recycling Hero', icon: '♻️' });
+            if (currentUser.points >= 500) badges.push({ name: 'Waste Warrior', icon: '🛡️' });
+            if (currentUser.points >= 1000) badges.push({ name: 'Planet Protector', icon: '🌍' });
+            if (currentUser.points >= 1500) badges.push({ name: 'Environmental Champion', icon: '🏆' });
+            
+            if (badges.length > 0) {
+                badgesElement.innerHTML = '<h4>Your Badges</h4>' + 
+                    badges.map(badge => `<div class="badge"><span>${badge.icon}</span> ${badge.name}</div>`).join('');
+            } else {
+                badgesElement.innerHTML = '<p>Collect trash and complete lessons to earn badges!</p>';
+            }
+
+            // Profile update functionality
+            const updateProfileBtn = document.getElementById('updateProfileBtn');
+            const profileForm = document.getElementById('profileForm');
+
+            updateProfileBtn.addEventListener('click', () => {
+                profileForm.style.display = profileForm.style.display === 'none' ? 'block' : 'none';
+                if (profileForm.style.display === 'block') {
+                    document.getElementById('updateUsername').value = currentUser.username;
+                    document.getElementById('updateEmail').value = currentUser.email;
+                    document.getElementById('updateProfilePicture').value = currentUser.profilePicture || '';
+                }
+            });
+
+            profileForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const updates = {
+                    username: document.getElementById('updateUsername').value,
+                    email: document.getElementById('updateEmail').value,
+                    profilePicture: document.getElementById('updateProfilePicture').value || null
+                };
+
+                userManager.updateUserProfile(currentUser.id, updates);
+                window.location.reload();
+            });
+        });
+    </script>
+</body>
+</html> 

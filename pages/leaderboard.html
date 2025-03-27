@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Environmental Leaders - EcoCollect</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo">EcoCollect</div>
+        <div class="nav-links">
+            <a href="../index.html">Home</a>
+            <a href="lessons.html">Environmental Lessons</a>
+            <a href="leaderboard.html" class="active">Leaderboard</a>
+            <a href="converter.html">Trash Collection</a>
+            <a href="profile.html">Profile</a>
+            <a href="login.html" id="loginBtn">Login</a>
+            <a href="signup.html" id="signupBtn">Sign Up</a>
+            <a href="#" id="logoutBtn" style="display: none;">Logout</a>
+        </div>
+    </nav>
+
+    <main class="container">
+        <div class="leaderboard-container">
+            <h2>Environmental Impact Leaders</h2>
+            <p>These eco-warriors are making the biggest difference by collecting and properly disposing of trash!</p>
+            
+            <div class="leaderboard-filters">
+                <select id="timeFilter">
+                    <option value="all">All Time</option>
+                    <option value="month">This Month</option>
+                    <option value="week">This Week</option>
+                </select>
+                <select id="categoryFilter">
+                    <option value="all">All Trash Types</option>
+                    <option value="plastic">Plastic</option>
+                    <option value="paper">Paper</option>
+                    <option value="glass">Glass</option>
+                    <option value="metal">Metal</option>
+                    <option value="ewaste">E-Waste</option>
+                    <option value="organic">Organic</option>
+                </select>
+            </div>
+            
+            <div class="leaderboard-stats">
+                <div class="stat-card">
+                    <h3 id="totalUsers">0</h3>
+                    <p>Total Contributors</p>
+                </div>
+                <div class="stat-card">
+                    <h3 id="totalPoints">0</h3>
+                    <p>Total Points</p>
+                </div>
+                <div class="stat-card">
+                    <h3 id="totalSubmissions">0</h3>
+                    <p>Trash Submissions</p>
+                </div>
+            </div>
+            
+            <div class="leaderboard-list" id="leaderboardList">
+                <!-- Leaderboard entries will be dynamically loaded here -->
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 EcoCollect - Clean Environment Initiative. All rights reserved.</p>
+    </footer>
+
+    <script src="../js/auth.js"></script>
+    <script src="../js/main.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const currentUser = userManager.currentUser;
+            if (!currentUser) {
+                window.location.href = 'login.html';
+                return;
+            }
+
+            const leaderboardList = document.getElementById('leaderboardList');
+            const timeFilter = document.getElementById('timeFilter');
+            const categoryFilter = document.getElementById('categoryFilter');
+            
+            const totalUsersElement = document.getElementById('totalUsers');
+            const totalPointsElement = document.getElementById('totalPoints');
+            const totalSubmissionsElement = document.getElementById('totalSubmissions');
+
+            function updateLeaderboard() {
+                const topUsers = leaderboardManager.getTopUsers(10);
+                
+                // Update stats
+                const allUsers = JSON.parse(localStorage.getItem('users')) || [];
+                const allSubmissions = JSON.parse(localStorage.getItem('trashSubmissions')) || [];
+                const approvedSubmissions = allSubmissions.filter(sub => sub.status === 'approved');
+                
+                totalUsersElement.textContent = allUsers.length;
+                totalPointsElement.textContent = allUsers.reduce((sum, user) => sum + user.points, 0);
+                totalSubmissionsElement.textContent = allSubmissions.length;
+                
+                if (topUsers.length > 0) {
+                    leaderboardList.innerHTML = topUsers
+                        .map((user, index) => {
+                            const isCurrentUser = user.id === currentUser.id;
+                            return `
+                                <div class="leaderboard-item ${isCurrentUser ? 'current-user' : ''}">
+                                    <div class="rank">#${index + 1}</div>
+                                    <div class="user-info">
+                                        <img src="${user.profilePicture || 'https://via.placeholder.com/40'}" alt="${user.username}" class="user-avatar">
+                                        <span class="username">${user.username} ${isCurrentUser ? '(You)' : ''}</span>
+                                    </div>
+                                    <div class="points">${user.points} points</div>
+                                </div>
+                            `;
+                        })
+                        .join('');
+                } else {
+                    leaderboardList.innerHTML = '<p>No users on the leaderboard yet. Start collecting trash to become the first!</p>';
+                }
+            }
+
+            timeFilter.addEventListener('change', updateLeaderboard);
+            categoryFilter.addEventListener('change', updateLeaderboard);
+
+            updateLeaderboard();
+        });
+    </script>
+</body>
+</html> 

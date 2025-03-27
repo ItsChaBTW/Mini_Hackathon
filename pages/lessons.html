@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Environmental Education - EcoCollect</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo">EcoCollect</div>
+        <div class="nav-links">
+            <a href="../index.html">Home</a>
+            <a href="lessons.html" class="active">Environmental Lessons</a>
+            <a href="leaderboard.html">Leaderboard</a>
+            <a href="converter.html">Trash Collection</a>
+            <a href="profile.html">Profile</a>
+            <a href="login.html" id="loginBtn">Login</a>
+            <a href="signup.html" id="signupBtn">Sign Up</a>
+            <a href="#" id="logoutBtn" style="display: none;">Logout</a>
+        </div>
+    </nav>
+
+    <main class="container">
+        <div class="lessons-header">
+            <h2>Environmental Education</h2>
+            <p>Learn about pollution, waste management, and how you can make a difference!</p>
+        </div>
+        
+        <div id="lessonList" class="lesson-grid">
+            <!-- Lessons will be dynamically loaded here -->
+        </div>
+
+        <div id="lessonContent" style="display: none;">
+            <div class="lesson-header">
+                <h2 id="lessonTitle"></h2>
+                <p id="lessonDescription"></p>
+                <p id="lessonPoints"></p>
+            </div>
+            <div class="lesson-body">
+                <div id="lessonText"></div>
+            </div>
+            <div class="lesson-footer">
+                <button id="completeLessonBtn" class="btn">Complete Lesson & Earn Points</button>
+                <button id="backToListBtn" class="btn">Back to Lessons</button>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 EcoCollect - Clean Environment Initiative. All rights reserved.</p>
+    </footer>
+
+    <script src="../js/auth.js"></script>
+    <script src="../js/main.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const currentUser = userManager.currentUser;
+            if (!currentUser) {
+                window.location.href = 'login.html';
+                return;
+            }
+
+            const lessonList = document.getElementById('lessonList');
+            const lessonContent = document.getElementById('lessonContent');
+            const urlParams = new URLSearchParams(window.location.search);
+            const lessonId = parseInt(urlParams.get('id'));
+
+            function displayLessonList() {
+                lessonList.style.display = 'grid';
+                lessonContent.style.display = 'none';
+                const lessons = lessonManager.lessons;
+                lessonList.innerHTML = lessons
+                    .map(lesson => `
+                        <div class="lesson-card">
+                            <img src="${lesson.image}" alt="${lesson.title}">
+                            <h3>${lesson.title}</h3>
+                            <p>${lesson.description}</p>
+                            <p class="points">Earn ${lesson.points} points</p>
+                            <a href="javascript:void(0)" onclick="showLesson(${lesson.id})" class="btn">Start Learning</a>
+                        </div>
+                    `)
+                    .join('');
+                
+                // Global function for the inline onclick handlers
+                window.showLesson = showLesson;
+            }
+
+            function showLesson(id) {
+                const lesson = lessonManager.getLessonById(id);
+                if (lesson) {
+                    lessonList.style.display = 'none';
+                    lessonContent.style.display = 'block';
+                    document.getElementById('lessonTitle').textContent = lesson.title;
+                    document.getElementById('lessonDescription').textContent = lesson.description;
+                    document.getElementById('lessonPoints').textContent = `Complete to earn ${lesson.points} points`;
+                    document.getElementById('lessonText').innerHTML = lesson.content;
+                }
+            }
+
+            document.getElementById('completeLessonBtn').addEventListener('click', () => {
+                if (lessonId) {
+                    lessonManager.completeLesson(currentUser.id, lessonId);
+                    alert('Congratulations! You\'ve completed this lesson and earned points for your environmental knowledge!');
+                    displayLessonList();
+                } else {
+                    // Handle case where lesson ID is not in URL
+                    const visibleLesson = document.getElementById('lessonText').innerHTML;
+                    for (const lesson of lessonManager.lessons) {
+                        if (lesson.content === visibleLesson) {
+                            lessonManager.completeLesson(currentUser.id, lesson.id);
+                            alert('Congratulations! You\'ve completed this lesson and earned points for your environmental knowledge!');
+                            displayLessonList();
+                            break;
+                        }
+                    }
+                }
+            });
+
+            document.getElementById('backToListBtn').addEventListener('click', displayLessonList);
+
+            if (lessonId) {
+                showLesson(lessonId);
+            } else {
+                displayLessonList();
+            }
+        });
+    </script>
+</body>
+</html> 
